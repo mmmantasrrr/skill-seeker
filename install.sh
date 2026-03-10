@@ -35,14 +35,27 @@ fi
 
 # Add the marketplace and install the plugin
 info "Adding skill-seeker marketplace..."
-claude plugin marketplace add mmmantasrrr/skill-seeker 2>&1 && \
-    ok "Marketplace added." || \
-    warn "Marketplace may already be added."
+if output=$(claude plugin marketplace add mmmantasrrr/skill-seeker 2>&1); then
+    ok "Marketplace added."
+else
+    if echo "$output" | grep -qi "already"; then
+        ok "Marketplace already added."
+    else
+        warn "Could not add marketplace: $output"
+        info "Try manually in Claude Code: /plugin marketplace add mmmantasrrr/skill-seeker"
+    fi
+fi
 
 info "Installing skill-seeker plugin..."
-claude plugin install skill-seeker@skill-seeker 2>&1 && \
-    ok "Plugin installed." || \
-    error "Installation failed. Try manually in Claude Code: /plugin install skill-seeker@skill-seeker"
+if output=$(claude plugin install skill-seeker@skill-seeker 2>&1); then
+    ok "Plugin installed."
+else
+    if echo "$output" | grep -qi "already"; then
+        ok "Plugin already installed."
+    else
+        error "Installation failed: $output\nTry manually in Claude Code: /plugin install skill-seeker@skill-seeker"
+    fi
+fi
 
 echo ""
 ok "skill-seeker installed!"

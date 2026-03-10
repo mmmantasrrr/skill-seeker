@@ -1,12 +1,11 @@
 {
   "name": "skill-seeker",
   "owner": {
-    "name": "skilldev",
-    "email": ""
+    "name": "skilldev"
   },
   "metadata": {
     "description": "Discover, evaluate, and install community Claude Code skills from GitHub",
-    "version": "1.0.0"
+    "version": "0.2.0"
   },
   "plugins": [
     {
