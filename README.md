@@ -267,14 +267,26 @@ Want to see your skill featured here? Submit it to our registry!
 
 ## 🎯 Roadmap
 
+**Released:**
 - [x] Curated registry with verified skills
 - [x] Hybrid search (registry + GitHub API)
 - [x] Security scanning with 9 detection categories
-- [ ] Multi-source search (GitLab, Bitbucket)
-- [ ] Local caching and offline mode
-- [ ] Semantic search with embeddings
-- [ ] Usage analytics and recommendations
-- [ ] Browser-based skill marketplace
+- [x] Context overhead reduction (80% — SKILL.md slimmed to ~200 tokens)
+- [x] Combined search script (single-script merge of registry + GitHub)
+- [x] Registry quick-install by ID
+- [x] Status command (context budget visibility)
+- [x] Project skill profiles (`.skill-seeker-profile.json`)
+- [x] Cache reload with SHA256 integrity check
+- [x] Auto-browse for verified HIGH-trust skills
+
+**Planned:**
+- [ ] Skill update notifications and batch install (v2.1)
+- [ ] Multi-source search: GitLab, GitHub Code Search, local dirs (v2.2)
+- [ ] Skill dependencies and custom scan rules (v2.3)
+- [ ] Semantic search with embeddings and intent classification (v3.0)
+- [ ] Browser-based skill marketplace and community platform (v3.1)
+
+See [ROADMAP.md](ROADMAP.md) for the full prioritized roadmap with rationale.
 
 ## 💬 Community & Support
 

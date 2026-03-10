@@ -1,5 +1,8 @@
 # Brainstorm: Next Implementation Phases
 
+> **Note**: All phases A–G described in this document have been implemented in v2.0.0.
+> For the forward-looking roadmap, see [ROADMAP.md](ROADMAP.md).
+
 *A hermeneutic reflection on what skill-seeker is, what it's becoming, and where the real leverage lies.*
 
 ---
@@ -268,42 +271,44 @@ I'd argue the ordering should shift. Phase 3 (local caching) should come before 
 
 ## Proposed Next Phases (Prioritized by User Impact)
 
-### Phase A: Reduce Context Overhead (Quick Win, 1-2 hours)
+> **Status**: All phases below were implemented in v2.0.0. See [ROADMAP.md](ROADMAP.md) for future phases.
+
+### Phase A: Reduce Context Overhead ✅ (implemented v2.0)
 - Slim `SKILL.md` from ~961 to ~200 tokens (trigger-only)
 - Move protocol/security/token-budget details into command files
 - Slim `unload.md` from ~505 to ~150 tokens
 - **Impact**: 60% reduction in permanent context overhead
 
-### Phase B: Combined Search Script (Medium, 2-4 hours)
+### Phase B: Combined Search Script ✅ (implemented v2.0)
 - Create `scripts/search-combined.sh` that merges registry + GitHub results
 - Single unified JSON output with source attribution
 - Update `seek.md` to call one script instead of two
 - **Impact**: More reliable search, less Claude reasoning overhead
 
-### Phase C: Registry Quick-Install (Medium, 2-3 hours)
+### Phase C: Registry Quick-Install ✅ (implemented v2.0)
 - Allow `/skill-seeker:install <registry-id>` (e.g., `install skill-builder`)
 - Resolve repo+path from registry, skip browse step
 - **Impact**: 2-step flow for known skills instead of 4-step
 
-### Phase D: Skill Status Command (Small, 1-2 hours)
+### Phase D: Skill Status Command ✅ (implemented v2.0)
 - New `/skill-seeker:status` command
 - Lists skills loaded this session with token counts
 - Shows total context budget consumed
 - **Impact**: Context visibility, prevents overloading
 
-### Phase E: Project Skill Profiles (Medium, 3-4 hours)
+### Phase E: Project Skill Profiles ✅ (implemented v2.0)
 - `.skill-seeker-profile.json` in project root
 - Pre-flight suggests preferred skills on session start
 - Still requires user approval
 - **Impact**: Eliminates repeat seek/browse cycles for daily-use skills
 
-### Phase F: Reload from Cache (Medium, 2-3 hours)  
+### Phase F: Reload from Cache ✅ (implemented v2.0)
 - New `/skill-seeker:reload` command
 - Lists previously installed skills from `~/.claude/skills-cache/`
 - Quick re-load without re-fetching or re-scanning (SHA256 integrity check)
 - **Impact**: Sub-second skill loading for returning users
 
-### Phase G: Auto-Browse for Verified Skills (Small, 1-2 hours)
+### Phase G: Auto-Browse for Verified Skills ✅ (implemented v2.0)
 - When registry returns a HIGH trust verified match, auto-browse instead of waiting
 - Collapse seek+browse into one interaction for verified skills
 - **Impact**: One fewer confirmation step for known-good skills
