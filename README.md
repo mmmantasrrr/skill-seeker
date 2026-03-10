@@ -1,10 +1,49 @@
-# Skill-Seeker
+<div align="center">
+
+# 🔍 Skill-Seeker
+
+**Discover and Install Community AI Skills for Claude Code**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/mmmantasrrr/skill-seeker?style=social)](https://github.com/mmmantasrrr/skill-seeker/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/mmmantasrrr/skill-seeker)](https://github.com/mmmantasrrr/skill-seeker/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING-REGISTRY.md)
+
+*Transform Claude Code with behavioral frameworks, prompt-based skills, and specialized AI personas*
+
+[Quick Start](#quick-start) • [Features](#features) • [Documentation](#architecture) • [Contributing](#contributing) • [Security](#security-model)
+
+</div>
+
+---
 
 A Claude Code plugin that discovers, evaluates, and installs community-created skills from GitHub. Before tackling a complex task, Skill-Seeker searches for existing behavioral frameworks, prompt-based skills, and specialized personas that can be injected into your context.
 
-## What It Does
+> ⭐ **Like this project?** Give us a star on GitHub to help others discover Skill-Seeker!
+
+## 🎯 What It Does
 
 Skill-Seeker is a **meta-skill**: it teaches Claude Code to autonomously find and load other skills. Instead of searching for executable MCP tools, it focuses on **behavioral frameworks and prompt-based skills**—Markdown files that shape how the AI approaches a task.
+
+## ✨ Features
+
+- 🔍 **Smart Discovery**: Hybrid search combining curated registry + live GitHub API search
+- 🛡️ **Security First**: Comprehensive security scanner with 9 detection categories
+- ⚡ **Instant Results**: Curated registry provides zero-latency search for popular skills
+- 🎯 **Quality Scoring**: Trust scores based on stars, activity, and community validation
+- 📦 **Easy Installation**: One-command skill installation with automatic caching
+- 🔄 **Session Management**: Load and unload skills dynamically
+- 🌐 **Community-Driven**: Submit your own skills to the curated registry
+- 🏷️ **Smart Tagging**: Query expansion with synonyms for better discoverability
+
+## 💡 Use Cases
+
+- **Frontend Development**: Load design audit frameworks for UI/UX improvements
+- **Security Audits**: Apply OWASP security checklists to code reviews
+- **Testing**: Integrate Playwright best practices for browser automation
+- **DevOps**: Apply Terraform patterns and Docker optimization guides
+- **Code Quality**: Load language-specific idioms and best practices
+- **API Design**: Apply REST API design patterns and conventions
 
 ### Example Workflow
 
@@ -22,16 +61,22 @@ Claude (with Skill-Seeker loaded):
   8. Claude now applies the design framework to your task
 ```
 
-## Quick Start
+## 📚 Quick Start
+
+### Installation
+
+1. Clone or download this repository to your Claude Code plugins directory
+2. Ensure you have the required dependencies: `curl`, `jq`, and `python3`
+3. (Optional) Set `GITHUB_TOKEN` environment variable for higher API rate limits
 
 ### Commands
 
-| Command | Purpose |
-|---------|---------|
-| `/skill-seeker:seek <query>` | Search GitHub for skills matching a query |
-| `/skill-seeker:browse <owner/repo>` | List all skills in a specific repository |
-| `/skill-seeker:install <owner/repo/path>` | Fetch, scan, and install a specific skill |
-| `/skill-seeker:unload` | List and remove loaded skills from the current session |
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `/skill-seeker:seek <query>` | Search GitHub for skills matching a query | `/skill-seeker:seek frontend design` |
+| `/skill-seeker:browse <owner/repo>` | List all skills in a specific repository | `/skill-seeker:browse pbakaus/impeccable` |
+| `/skill-seeker:install <owner/repo/path>` | Fetch, scan, and install a specific skill | `/skill-seeker:install pbakaus/impeccable/.claude/skills/impeccable/SKILL.md` |
+| `/skill-seeker:unload` | List and remove loaded skills from the current session | `/skill-seeker:unload` |
 
 ### Prerequisites
 
@@ -48,33 +93,23 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for a detailed technical breakdown coveri
 - **Lead 3**: Context injection & lifecycle (loading, temp storage, unloading)
 - **Lead 4**: Trigger mechanism & security (invocation patterns, prompt injection defense)
 
-## Repository Structure
+## 🤝 Contributing
 
-```
-skill-seeker/
-├── .claude-plugin/
-│   └── plugin.json          # Plugin metadata
-├── commands/
-│   ├── seek.md              # Search GitHub for skills
-│   ├── browse.md            # Browse skills in a repo
-│   ├── install.md           # Fetch, scan, and install a skill
-│   └── unload.md            # Unload skills from current session
-├── scripts/
-│   ├── search-github.sh     # GitHub API search & browse
-│   ├── fetch-skill.sh       # Raw markdown fetching with caching
-│   └── scan-skill.py        # Security scanner (9 detection categories)
-├── skills/
-│   └── seeking-skills/
-│       └── SKILL.md         # Meta-skill: when/how to seek skills
-├── tests/
-│   └── test_scan_skill.py   # Security scanner tests
-├── ARCHITECTURE.md          # Technical deep-dive
-└── README.md                # This file
-```
+We welcome contributions! Here's how you can help:
 
-## Security Model
+- **Add Skills to Registry**: Submit high-quality skills via PR (see [CONTRIBUTING-REGISTRY.md](CONTRIBUTING-REGISTRY.md))
+- **Report Bugs**: Open an issue using our bug report template
+- **Suggest Features**: Share your ideas through feature request issues
+- **Improve Documentation**: Help make our docs better
+- **Share Your Experience**: Star the repo and tell others about Skill-Seeker
 
-All community content passes through the security scanner before injection. The scanner checks for:
+Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
+
+## 🔐 Security Model
+
+All community content passes through the security scanner before injection. See [SECURITY.md](SECURITY.md) for details.
+
+The scanner checks for:
 
 | Category | Severity | What It Detects |
 |----------|----------|----------------|
@@ -112,12 +147,68 @@ Results are scored on: stars (log scale), recency, forks, proper tagging, licens
 
 **Why the registry?** Ensures you never encounter "skill not found" for popular use cases. The registry guarantees that well-known skills (Playwright testing, Terraform patterns, security checklists, etc.) are always discoverable, even if they're not properly tagged on GitHub.
 
-## Inspiration
+## 📖 Documentation
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Technical deep-dive into system design
+- [CONTRIBUTING-REGISTRY.md](CONTRIBUTING-REGISTRY.md) - How to add skills to the registry
+- [RESEARCH-SKILL-DISCOVERY.md](RESEARCH-SKILL-DISCOVERY.md) - Research and expansion roadmap
+- [SECURITY.md](SECURITY.md) - Security policy and vulnerability reporting
+- [CHANGELOG.md](CHANGELOG.md) - Version history and updates
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Community guidelines
+
+## 🌟 Showcase
+
+Want to see your skill featured here? Submit it to our registry!
+
+**Featured Skills:**
+- [Impeccable Design Audit](https://github.com/pbakaus/impeccable) - Strict frontend design framework
+- [Agency Agents](https://github.com/msitarzewski/agency-agents) - Specialized AI personas
+
+## 🎯 Roadmap
+
+- [x] Curated registry with verified skills
+- [x] Hybrid search (registry + GitHub API)
+- [x] Security scanning with 9 detection categories
+- [ ] Multi-source search (GitLab, Bitbucket)
+- [ ] Local caching and offline mode
+- [ ] Semantic search with embeddings
+- [ ] Usage analytics and recommendations
+- [ ] Browser-based skill marketplace
+
+## 💬 Community & Support
+
+- **Issues**: Report bugs or request features via [GitHub Issues](https://github.com/mmmantasrrr/skill-seeker/issues)
+- **Discussions**: Join conversations about skills and best practices
+- **Pull Requests**: Contribute code or skills following our guidelines
+
+## 📊 Comparison
+
+| Feature | Skill-Seeker | Manual Search | MCP Tools |
+|---------|--------------|---------------|-----------|
+| Discovery | Automated with trust scores | Manual GitHub browsing | Requires knowledge of tool names |
+| Security | Built-in scanner | User responsibility | Varies by tool |
+| Type | Behavioral frameworks | N/A | Executable tools |
+| Installation | One command | Manual copy-paste | Installation required |
+| Session Management | Dynamic load/unload | N/A | Always available |
+
+## 🙏 Inspiration
 
 - [pbakaus/impeccable](https://github.com/pbakaus/impeccable) — Strict frontend design taste framework
 - [msitarzewski/agency-agents](https://github.com/msitarzewski/agency-agents) — Dozens of specialized AI personas
 - GitHub topics: `claude-skills`, `claude-code-skills`
 
-## License
+## 📝 License
 
-MIT
+MIT License - see [LICENSE](LICENSE) for details.
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the Claude Code community**
+
+[![Star History](https://img.shields.io/github/stars/mmmantasrrr/skill-seeker?style=social)](https://github.com/mmmantasrrr/skill-seeker/stargazers)
+
+*If you find Skill-Seeker useful, please consider starring the repository to help others discover it!*
+
+</div>
