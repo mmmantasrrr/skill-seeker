@@ -113,8 +113,17 @@ fi
 if [[ "${1:-}" == "--browse" ]]; then
     REPO="${2:?Usage: search-github.sh --browse owner/repo}"
 
-    # Get default branch
-    REPO_INFO=$(gh_api "https://api.github.com/repos/$REPO")
+    # Get default branch (allow failure)
+    REPO_INFO=$(gh_api "https://api.github.com/repos/$REPO" || echo '{}')
+
+    # Check if we got a valid response
+    if [[ "$(echo "$REPO_INFO" | jq -r '.full_name // empty' 2>/dev/null)" == "" ]]; then
+        echo "ERROR: Could not fetch repository info for '$REPO'" >&2
+        echo "Run: search-github.sh --check  to diagnose connectivity issues." >&2
+        echo '{"repo": "'"$REPO"'", "error": "Could not fetch repository info. GitHub API may be unreachable.", "skills": []}'
+        exit 1
+    fi
+
     DEFAULT_BRANCH=$(echo "$REPO_INFO" | jq -r '.default_branch // "main"')
     STARS=$(echo "$REPO_INFO" | jq -r '.stargazers_count // 0')
     REPO_DESCRIPTION=$(echo "$REPO_INFO" | jq -r '.description // "(no description)"')
@@ -128,7 +137,14 @@ if [[ "${1:-}" == "--browse" ]]; then
     echo "  \"branch\": \"$DEFAULT_BRANCH\","
 
     # Fetch file tree
-    TREE=$(gh_api "https://api.github.com/repos/$REPO/git/trees/$DEFAULT_BRANCH?recursive=1")
+    TREE=$(gh_api "https://api.github.com/repos/$REPO/git/trees/$DEFAULT_BRANCH?recursive=1" || echo '{}')
+
+    # Check if tree was fetched successfully
+    if [[ "$(echo "$TREE" | jq -r '.tree // empty' 2>/dev/null)" == "" ]]; then
+        echo "ERROR: Could not fetch file tree for '$REPO'" >&2
+        echo '{"repo": "'"$REPO"'", "description": '"$(echo "$REPO_DESCRIPTION" | jq -Rs .)"', "stars": '"$STARS"', "error": "Could not fetch file tree", "skills": []}'
+        exit 1
+    fi
 
     # Find skill files: SKILL.md files, or .md files with likely skill content
     echo "  \"skills\": ["
@@ -179,40 +195,46 @@ fi
 
 # ─── Search mode: find repos matching a query ──────────────────────────────────
 QUERY="${1:?Usage: search-github.sh <query>}"
-MIN_STARS="${2:-10}"
+MIN_STARS="${2:-3}"
 
 # Search strategies (run the most targeted first)
+# Allow individual API calls to fail without aborting (set +e locally)
 # 1. Topic search for claude-skills + query terms
-TOPIC_RESULTS=$(gh_api "https://api.github.com/search/repositories?q=topic:claude-skills+topic:claude-code-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10")
+TOPIC_RESULTS=$(gh_api "https://api.github.com/search/repositories?q=topic:claude-skills+topic:claude-code-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10" || echo '{}')
 
 # 2. Topic search without query filtering (broader)
-TOPIC_BROAD=$(gh_api "https://api.github.com/search/repositories?q=topic:claude-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10")
+TOPIC_BROAD=$(gh_api "https://api.github.com/search/repositories?q=topic:claude-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10" || echo '{}')
 
 # 3. Description/name search
-DESC_RESULTS=$(gh_api "https://api.github.com/search/repositories?q=${QUERY// /+}+claude+skill+in:description,name&sort=stars&order=desc&per_page=10")
+DESC_RESULTS=$(gh_api "https://api.github.com/search/repositories?q=${QUERY// /+}+claude+skill+in:description,name&sort=stars&order=desc&per_page=10" || echo '{}')
 
 # Merge and deduplicate results, compute trust scores
 export TOPIC_RESULTS TOPIC_BROAD DESC_RESULTS QUERY
-python3 - "$MIN_STARS" <<'PYEOF'
+python3 - "$MIN_STARS" "$_API_ERRORS" <<'PYEOF'
 import json
 import os
 import sys
 from datetime import datetime, timezone
 
 min_stars = int(sys.argv[1])
+api_had_errors = sys.argv[2] == "1"
 
 results = {}
+api_errors = 0
 
 for var_name in ['TOPIC_RESULTS', 'TOPIC_BROAD', 'DESC_RESULTS']:
     api_response_json = os.environ.get(var_name, '{}')
     try:
         api_response = json.loads(api_response_json)
-        for item in api_response.get('items', []):
-            full_name = item['full_name']
-            if full_name not in results:
-                results[full_name] = item
+        if 'items' not in api_response:
+            api_errors += 1
+        else:
+            for item in api_response.get('items', []):
+                full_name = item['full_name']
+                if full_name not in results:
+                    results[full_name] = item
     except (json.JSONDecodeError, KeyError):
-        pass
+        api_errors += 1
 
 # Filter and score
 scored_repositories = []
@@ -290,5 +312,28 @@ output = {
     'results': scored_repositories[:15]
 }
 
+# Add warning if all API calls failed
+if api_errors == 3 or api_had_errors:
+    output['api_status'] = 'error'
+    if len(scored_repositories) == 0:
+        output['warning'] = 'All GitHub API searches failed. Check connectivity with: search-github.sh --check'
+        # Signal error to the shell script via stderr
+        print("WARNING: All GitHub API searches failed. Results may be incomplete.", file=sys.stderr)
+        print("Run: search-github.sh --check  to diagnose connectivity issues.", file=sys.stderr)
+elif api_errors > 0:
+    output['api_status'] = 'partial'
+    output['warning'] = f'{api_errors} of 3 API searches failed. Results may be incomplete.'
+else:
+    output['api_status'] = 'ok'
+
 print(json.dumps(output, indent=2))
+
+# Exit with error if all searches failed and no results
+if api_errors == 3 and len(scored_repositories) == 0:
+    sys.exit(1)
 PYEOF
+
+PYTHON_EXIT=$?
+if [[ "$PYTHON_EXIT" -ne 0 || "$_API_ERRORS" -ne 0 ]]; then
+    exit 1
+fi
