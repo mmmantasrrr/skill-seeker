@@ -1,0 +1,221 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-03-10",
+  "description": "Curated registry of verified Claude Code skills",
+  "skills": [
+    {
+      "id": "pbakaus-impeccable-v1",
+      "name": "Impeccable Design Audit",
+      "description": "Strict frontend design taste framework with detailed code review patterns for UI/UX quality",
+      "source": "github",
+      "repo": "pbakaus/impeccable",
+      "path": ".claude/skills/impeccable/SKILL.md",
+      "tags": ["design", "frontend", "ui", "audit", "code-review", "ux", "accessibility", "visual-design"],
+      "aliases": ["design-review", "ui-audit", "frontend-taste", "design-critique"],
+      "verified": true,
+      "trust_score": 85,
+      "stars": 234,
+      "last_verified": "2026-03-10",
+      "domains": ["web-development", "design-systems"]
+    },
+    {
+      "id": "msitarzewski-agency-agents-v1",
+      "name": "Agency Agents Collection",
+      "description": "Dozens of specialized AI personas for different professional roles and domains",
+      "source": "github",
+      "repo": "msitarzewski/agency-agents",
+      "path": "agents/",
+      "tags": ["personas", "agents", "specialized", "roles", "multi-domain"],
+      "aliases": ["personas", "agent-collection", "specialized-agents"],
+      "verified": true,
+      "trust_score": 78,
+      "stars": 156,
+      "last_verified": "2026-03-10",
+      "domains": ["general"]
+    },
+    {
+      "id": "example-playwright-testing-v1",
+      "name": "Playwright Testing Best Practices",
+      "description": "Comprehensive guide for writing reliable browser automation tests with Playwright",
+      "source": "github",
+      "repo": "example/playwright-skills",
+      "path": "skills/testing/SKILL.md",
+      "tags": ["playwright", "testing", "e2e", "browser-automation", "qa", "test-automation"],
+      "aliases": ["browser-testing", "e2e-testing", "web-testing", "automation"],
+      "verified": false,
+      "trust_score": 65,
+      "stars": 45,
+      "last_verified": "2026-03-10",
+      "domains": ["testing", "web-development"],
+      "note": "Example entry - repo may not exist"
+    },
+    {
+      "id": "example-terraform-iac-v1",
+      "name": "Terraform Infrastructure Patterns",
+      "description": "Best practices for Infrastructure as Code with Terraform including module design and state management",
+      "source": "github",
+      "repo": "example/terraform-skills",
+      "path": ".claude/skills/terraform/SKILL.md",
+      "tags": ["terraform", "iac", "infrastructure", "devops", "cloud", "aws", "azure", "gcp"],
+      "aliases": ["infrastructure-as-code", "cloud-infrastructure", "terraform-patterns"],
+      "verified": false,
+      "trust_score": 60,
+      "stars": 89,
+      "last_verified": "2026-03-10",
+      "domains": ["devops", "cloud"],
+      "note": "Example entry - repo may not exist"
+    },
+    {
+      "id": "example-security-owasp-v1",
+      "name": "OWASP Security Checklist",
+      "description": "Security review framework covering OWASP Top 10 vulnerabilities with detection and prevention patterns",
+      "source": "github",
+      "repo": "example/security-skills",
+      "path": "skills/owasp-checklist/SKILL.md",
+      "tags": ["security", "owasp", "vulnerabilities", "infosec", "pentest", "secure-coding"],
+      "aliases": ["security-audit", "vulnerability-scan", "secure-code-review"],
+      "verified": false,
+      "trust_score": 70,
+      "stars": 123,
+      "last_verified": "2026-03-10",
+      "domains": ["security"],
+      "note": "Example entry - repo may not exist"
+    },
+    {
+      "id": "example-react-patterns-v1",
+      "name": "React Best Practices",
+      "description": "Modern React patterns including hooks, component composition, state management, and performance optimization",
+      "source": "github",
+      "repo": "example/react-skills",
+      "path": "skills/react-patterns/SKILL.md",
+      "tags": ["react", "javascript", "frontend", "hooks", "components", "state-management"],
+      "aliases": ["react-hooks", "react-components", "react-architecture"],
+      "verified": false,
+      "trust_score": 68,
+      "stars": 178,
+      "last_verified": "2026-03-10",
+      "domains": ["web-development", "frontend"],
+      "note": "Example entry - repo may not exist"
+    },
+    {
+      "id": "example-python-patterns-v1",
+      "name": "Pythonic Code Patterns",
+      "description": "Idiomatic Python patterns covering clean code, type hints, async/await, and standard library usage",
+      "source": "github",
+      "repo": "example/python-skills",
+      "path": "skills/pythonic/SKILL.md",
+      "tags": ["python", "clean-code", "idioms", "type-hints", "async", "best-practices"],
+      "aliases": ["python-idioms", "pythonic-style", "python-best-practices"],
+      "verified": false,
+      "trust_score": 62,
+      "stars": 92,
+      "last_verified": "2026-03-10",
+      "domains": ["backend", "scripting"],
+      "note": "Example entry - repo may not exist"
+    },
+    {
+      "id": "example-git-workflow-v1",
+      "name": "Git Workflow Discipline",
+      "description": "Commit message standards, branching strategies, and code review practices for team collaboration",
+      "source": "github",
+      "repo": "example/git-skills",
+      "path": "skills/git-discipline/SKILL.md",
+      "tags": ["git", "version-control", "commits", "branching", "code-review", "collaboration"],
+      "aliases": ["git-practices", "commit-messages", "git-strategy"],
+      "verified": false,
+      "trust_score": 58,
+      "stars": 67,
+      "last_verified": "2026-03-10",
+      "domains": ["general", "collaboration"],
+      "note": "Example entry - repo may not exist"
+    },
+    {
+      "id": "example-api-design-v1",
+      "name": "REST API Design Patterns",
+      "description": "RESTful API design principles covering resource modeling, versioning, authentication, and error handling",
+      "source": "github",
+      "repo": "example/api-skills",
+      "path": "skills/rest-api/SKILL.md",
+      "tags": ["api", "rest", "backend", "http", "api-design", "web-services"],
+      "aliases": ["rest-api", "api-patterns", "web-api"],
+      "verified": false,
+      "trust_score": 64,
+      "stars": 110,
+      "last_verified": "2026-03-10",
+      "domains": ["backend", "api-development"],
+      "note": "Example entry - repo may not exist"
+    },
+    {
+      "id": "example-docker-patterns-v1",
+      "name": "Docker Best Practices",
+      "description": "Container optimization, multi-stage builds, security hardening, and docker-compose patterns",
+      "source": "github",
+      "repo": "example/docker-skills",
+      "path": "skills/docker/SKILL.md",
+      "tags": ["docker", "containers", "devops", "kubernetes", "containerization"],
+      "aliases": ["container-patterns", "docker-optimization", "containerization"],
+      "verified": false,
+      "trust_score": 66,
+      "stars": 145,
+      "last_verified": "2026-03-10",
+      "domains": ["devops", "infrastructure"],
+      "note": "Example entry - repo may not exist"
+    }
+  ],
+  "domains": {
+    "web-development": {
+      "description": "Frontend and full-stack web development",
+      "related_tags": ["frontend", "backend", "javascript", "react", "html", "css"]
+    },
+    "testing": {
+      "description": "Software testing and quality assurance",
+      "related_tags": ["qa", "e2e", "unit-testing", "integration-testing", "test-automation"]
+    },
+    "devops": {
+      "description": "DevOps, CI/CD, and infrastructure automation",
+      "related_tags": ["ci-cd", "automation", "infrastructure", "deployment", "monitoring"]
+    },
+    "security": {
+      "description": "Security, vulnerability scanning, and secure coding",
+      "related_tags": ["infosec", "owasp", "pentest", "vulnerabilities", "secure-coding"]
+    },
+    "cloud": {
+      "description": "Cloud infrastructure and services",
+      "related_tags": ["aws", "azure", "gcp", "cloud-native", "serverless"]
+    },
+    "backend": {
+      "description": "Backend development and API design",
+      "related_tags": ["api", "database", "server", "microservices", "rest"]
+    },
+    "frontend": {
+      "description": "Frontend development and UI frameworks",
+      "related_tags": ["ui", "javascript", "react", "vue", "angular", "css"]
+    },
+    "general": {
+      "description": "General programming and collaboration practices",
+      "related_tags": ["clean-code", "refactoring", "documentation", "collaboration"]
+    }
+  },
+  "query_synonyms": {
+    "frontend": ["ui", "web-design", "client-side", "browser", "web-app"],
+    "backend": ["server-side", "api", "service", "server"],
+    "testing": ["qa", "test-automation", "validation", "quality", "verification"],
+    "security": ["vulnerability", "owasp", "infosec", "pentest", "secure"],
+    "devops": ["ci-cd", "deployment", "infrastructure", "automation", "ops"],
+    "javascript": ["js", "ecmascript", "node", "typescript"],
+    "python": ["py", "python3"],
+    "docker": ["container", "containerization", "containers"],
+    "kubernetes": ["k8s", "orchestration"],
+    "terraform": ["iac", "infrastructure-as-code"],
+    "playwright": ["browser-automation", "web-testing", "e2e"],
+    "react": ["reactjs", "react-native"],
+    "git": ["version-control", "vcs", "source-control"]
+  },
+  "metadata": {
+    "total_skills": 10,
+    "verified_skills": 2,
+    "last_scan": "2026-03-10",
+    "format_version": "1.0.0",
+    "notes": "This is an initial registry with example entries. Most entries are placeholders and need to be replaced with real, verified skills."
+  }
+}

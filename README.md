@@ -94,13 +94,23 @@ Skills flagged HIGH or CRITICAL are **blocked by default**. The user must explic
 
 ## How It Finds Skills
 
-The search uses three strategies in order of specificity:
+The search uses a hybrid approach combining curated registry + live GitHub search:
 
+### Strategy 0: Curated Registry (NEW)
+- **Instant search** of verified, high-quality skills
+- **Rich metadata** with tags, aliases, and synonyms
+- **Query expansion**: "frontend" automatically searches "ui", "web-design", etc.
+- **No rate limits**: Always available, no API calls needed
+- **Community-curated**: Submit your skills via PR (see [CONTRIBUTING-REGISTRY.md](CONTRIBUTING-REGISTRY.md))
+
+### Strategies 1-3: Live GitHub API Search
 1. **Topic search**: Repos tagged with `claude-skills` or `claude-code-skills` + query terms
 2. **Broad topic search**: Repos tagged with `claude-skills` + query terms (wider net)
 3. **Description search**: Repos with "claude" + "skill" in description/name + query terms
 
 Results are scored on: stars (log scale), recency, forks, proper tagging, license presence, and archive status. Only repos with 10+ stars are shown by default.
+
+**Why the registry?** Ensures you never encounter "skill not found" for popular use cases. The registry guarantees that well-known skills (Playwright testing, Terraform patterns, security checklists, etc.) are always discoverable, even if they're not properly tagged on GitHub.
 
 ## Inspiration
 

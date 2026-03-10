@@ -6,9 +6,42 @@ This document explores the feasibility and architecture of the Skill-Seeker meta
 
 ## Lead 1: Discovery & Search Mechanics
 
-### GitHub API Strategy
+### Curated Registry (Strategy 0)
 
-The GitHub REST API Search endpoint (`GET /search/repositories`) is the primary discovery mechanism. We use three complementary strategies:
+**NEW**: Before hitting external APIs, skill-seeker checks a local curated registry (`registry.json`) of verified skills. This solves the "skill not found" problem by guaranteeing that high-quality, known skills are always discoverable.
+
+**Registry Search Flow:**
+```bash
+scripts/search-registry.sh "<query>"
+```
+
+The registry provides:
+- **Guaranteed discoverability**: Known-good skills always appear in results
+- **Rich metadata**: Tags, aliases, and synonyms ensure skills match various search terms
+- **Query expansion**: Automatic synonym expansion (e.g., "frontend" → ["ui", "web-design", "client-side"])
+- **No rate limits**: Instant search without API constraints
+- **Community curation**: Skills vetted through PR review process
+
+**Registry Entry Structure:**
+```json
+{
+  "id": "owner-repo-skillname-v1",
+  "name": "Skill Name",
+  "description": "What it does",
+  "repo": "owner/repo",
+  "path": "path/to/SKILL.md",
+  "tags": ["tag1", "tag2"],
+  "aliases": ["alternative-name"],
+  "trust_score": 85,
+  "verified": true
+}
+```
+
+**Contributing to Registry**: See [CONTRIBUTING-REGISTRY.md](CONTRIBUTING-REGISTRY.md) for details on adding skills to the curated collection.
+
+### GitHub API Strategy (Strategies 1-3)
+
+The GitHub REST API Search endpoint (`GET /search/repositories`) provides real-time discovery. We use three complementary strategies:
 
 **Strategy 1 — Topic-targeted search:**
 ```
@@ -27,6 +60,8 @@ Wider net with a single topic tag.
 GET /search/repositories?q={query}+claude+skill+in:description,name&sort=stars&order=desc
 ```
 Catches repos that haven't tagged themselves but are still relevant.
+
+**Hybrid Search**: The complete search flow now combines registry (Strategy 0) with live API searches (Strategies 1-3), merging and deduplicating results to maximize coverage.
 
 ### Rate Limits
 
@@ -60,12 +95,38 @@ The minimum star threshold (default: 10) prevents results from being flooded wit
 
 ### Limitations & Mitigations
 
-| Limitation | Mitigation |
-|-----------|------------|
-| GitHub search only indexes default branch | Acceptable — skills should be on default branch |
-| 1,000 result cap per search query | Multiple strategies + pre-filtering reduces impact |
-| Rate limiting without auth | Document `GITHUB_TOKEN` setup prominently |
-| Search relevance can be noisy | Trust scoring re-ranks results by quality signals |
+| Limitation | Mitigation | Status |
+|-----------|------------|--------|
+| GitHub search only indexes default branch | Acceptable — skills should be on default branch | ✅ Documented |
+| 1,000 result cap per search query | Multiple strategies + pre-filtering reduces impact | ✅ Working |
+| Rate limiting without auth | Document `GITHUB_TOKEN` setup prominently | ✅ Documented |
+| Search relevance can be noisy | Trust scoring re-ranks results by quality signals | ✅ Working |
+| Skills not tagged properly | **Registry provides fallback** | ✅ **NEW: Implemented** |
+| Terminology mismatches | **Synonym expansion in registry** | ✅ **NEW: Implemented** |
+
+### Future Expansion Strategies
+
+See [RESEARCH-SKILL-DISCOVERY.md](RESEARCH-SKILL-DISCOVERY.md) for detailed research on expanding skill discovery. Planned enhancements include:
+
+**Phase 2: Multi-Source Search**
+- GitLab API support for skills hosted outside GitHub
+- GitHub Code Search API for content-based discovery
+- Result deduplication across multiple sources
+
+**Phase 3: Local Skill Cache**
+- SQLite-based local index for offline search
+- Background indexer for periodic refresh
+- Full-text search across skill content
+
+**Phase 4: Semantic Search**
+- Embedding-based similarity search
+- Natural language query understanding
+- Conceptual skill matching (e.g., "better commits" → "git workflow discipline")
+
+**Phase 5: Community Growth**
+- Automated skill discovery bot
+- Usage analytics and recommendations
+- Collaborative filtering ("users who used X also used Y")
 
 ---
 
