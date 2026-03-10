@@ -14,7 +14,7 @@ if [[ -n "${GITHUB_TOKEN:-}" ]]; then
     AUTH_HEADER="-H \"Authorization: token $GITHUB_TOKEN\""
 fi
 
-gh_api() {
+call_github_api() {
     local url="$1"
     if [[ -n "${GITHUB_TOKEN:-}" ]]; then
         curl -s -H "Authorization: token $GITHUB_TOKEN" \
@@ -30,21 +30,21 @@ if [[ "${1:-}" == "--browse" ]]; then
     REPO="${2:?Usage: search-github.sh --browse owner/repo}"
 
     # Get default branch
-    REPO_INFO=$(gh_api "https://api.github.com/repos/$REPO")
+    REPO_INFO=$(call_github_api "https://api.github.com/repos/$REPO")
     DEFAULT_BRANCH=$(echo "$REPO_INFO" | jq -r '.default_branch // "main"')
     STARS=$(echo "$REPO_INFO" | jq -r '.stargazers_count // 0')
-    DESC=$(echo "$REPO_INFO" | jq -r '.description // "(no description)"')
+    REPO_DESCRIPTION=$(echo "$REPO_INFO" | jq -r '.description // "(no description)"')
     UPDATED=$(echo "$REPO_INFO" | jq -r '.pushed_at // "unknown"' | cut -c1-10)
 
     echo "{"
     echo "  \"repo\": \"$REPO\","
-    echo "  \"description\": $(echo "$DESC" | jq -Rs .),"
+    echo "  \"description\": $(echo "$REPO_DESCRIPTION" | jq -Rs .),"
     echo "  \"stars\": $STARS,"
     echo "  \"updated\": \"$UPDATED\","
     echo "  \"branch\": \"$DEFAULT_BRANCH\","
 
     # Fetch file tree
-    TREE=$(gh_api "https://api.github.com/repos/$REPO/git/trees/$DEFAULT_BRANCH?recursive=1")
+    TREE=$(call_github_api "https://api.github.com/repos/$REPO/git/trees/$DEFAULT_BRANCH?recursive=1")
 
     # Find skill files: SKILL.md files, or .md files with likely skill content
     echo "  \"skills\": ["
@@ -69,15 +69,15 @@ if [[ "${1:-}" == "--browse" ]]; then
         # Skip if already found as SKILL.md
         echo "$path" | grep -q "SKILL.md" && continue
         # Skip common non-skill files
-        BASENAME=$(basename "$path")
-        [[ "$BASENAME" == "README.md" || "$BASENAME" == "CHANGELOG.md" || "$BASENAME" == "LICENSE.md" || "$BASENAME" == "CONTRIBUTING.md" || "$BASENAME" == "CODE_OF_CONDUCT.md" ]] && continue
+        SKILL_FILENAME=$(basename "$path")
+        [[ "$SKILL_FILENAME" == "README.md" || "$SKILL_FILENAME" == "CHANGELOG.md" || "$SKILL_FILENAME" == "LICENSE.md" || "$SKILL_FILENAME" == "CONTRIBUTING.md" || "$SKILL_FILENAME" == "CODE_OF_CONDUCT.md" ]] && continue
 
         SIZE=$(echo "$TREE" | jq -r ".tree[] | select(.path==\"$path\") | .size")
         # Only include .md files that are likely skills (> 500 bytes)
         [[ "$SIZE" -lt 500 ]] && continue
         # Skip files in build/config directories
-        DIRNAME=$(dirname "$path")
-        [[ "$DIRNAME" == "scripts" || "$DIRNAME" == ".github" || "$DIRNAME" =~ ^\.github/ || "$DIRNAME" == "node_modules" || "$DIRNAME" == ".claude-plugin" ]] && continue
+        SKILL_DIRECTORY=$(dirname "$path")
+        [[ "$SKILL_DIRECTORY" == "scripts" || "$SKILL_DIRECTORY" == ".github" || "$SKILL_DIRECTORY" =~ ^\.github/ || "$SKILL_DIRECTORY" == "node_modules" || "$SKILL_DIRECTORY" == ".claude-plugin" ]] && continue
 
         SKILL_NAME=$(basename "$path" .md)
         TOKENS=$((SIZE / 4))
@@ -99,13 +99,13 @@ MIN_STARS="${2:-10}"
 
 # Search strategies (run the most targeted first)
 # 1. Topic search for claude-skills + query terms
-TOPIC_RESULTS=$(gh_api "https://api.github.com/search/repositories?q=topic:claude-skills+topic:claude-code-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10")
+TOPIC_RESULTS=$(call_github_api "https://api.github.com/search/repositories?q=topic:claude-skills+topic:claude-code-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10")
 
 # 2. Topic search without query filtering (broader)
-TOPIC_BROAD=$(gh_api "https://api.github.com/search/repositories?q=topic:claude-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10")
+TOPIC_BROAD=$(call_github_api "https://api.github.com/search/repositories?q=topic:claude-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10")
 
 # 3. Description/name search
-DESC_RESULTS=$(gh_api "https://api.github.com/search/repositories?q=${QUERY// /+}+claude+skill+in:description,name&sort=stars&order=desc&per_page=10")
+DESC_RESULTS=$(call_github_api "https://api.github.com/search/repositories?q=${QUERY// /+}+claude+skill+in:description,name&sort=stars&order=desc&per_page=10")
 
 # Merge and deduplicate results, compute trust scores
 export TOPIC_RESULTS TOPIC_BROAD DESC_RESULTS QUERY
@@ -120,10 +120,10 @@ min_stars = int(sys.argv[1])
 results = {}
 
 for var_name in ['TOPIC_RESULTS', 'TOPIC_BROAD', 'DESC_RESULTS']:
-    data_str = os.environ.get(var_name, '{}')
+    api_response_json = os.environ.get(var_name, '{}')
     try:
-        data = json.loads(data_str)
-        for item in data.get('items', []):
+        api_response = json.loads(api_response_json)
+        for item in api_response.get('items', []):
             full_name = item['full_name']
             if full_name not in results:
                 results[full_name] = item
@@ -131,7 +131,7 @@ for var_name in ['TOPIC_RESULTS', 'TOPIC_BROAD', 'DESC_RESULTS']:
         pass
 
 # Filter and score
-scored = []
+scored_repositories = []
 now = datetime.now(timezone.utc)
 
 for name, repo in results.items():
@@ -183,7 +183,7 @@ for name, repo in results.items():
     elif score >= 40:
         trust = "MEDIUM"
 
-    scored.append({
+    scored_repositories.append({
         'full_name': name,
         'description': (repo.get('description') or '(no description)')[:120],
         'stars': stars,
@@ -198,12 +198,12 @@ for name, repo in results.items():
     })
 
 # Sort by trust score descending
-scored.sort(key=lambda x: x['trust_score'], reverse=True)
+scored_repositories.sort(key=lambda x: x['trust_score'], reverse=True)
 
 output = {
     'query': os.environ.get('QUERY', ''),
-    'total_found': len(scored),
-    'results': scored[:15]
+    'total_found': len(scored_repositories),
+    'results': scored_repositories[:15]
 }
 
 print(json.dumps(output, indent=2))
