@@ -27,14 +27,8 @@
     "developer-tools",
     "security-scanner"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mmmantasrrr/skill-seeker"
-  },
+  "repository": "https://github.com/mmmantasrrr/skill-seeker",
   "homepage": "https://github.com/mmmantasrrr/skill-seeker#readme",
-  "bugs": {
-    "url": "https://github.com/mmmantasrrr/skill-seeker/issues"
-  },
   "license": "MIT",
   "skills": "./skills",
   "commands": "./commands"
