@@ -140,12 +140,35 @@ After installing, restart Claude Code to load the plugin. Then try `/skill-seeke
 
 > **Dependencies:** `curl`, `jq`, and `python3`. Set `GITHUB_TOKEN` for higher API rate limits (5,000 vs 60 requests/hour).
 
+### Uninstalling
+
+To completely remove skill-seeker:
+
+**One-line uninstall from terminal:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/mmmantasrrr/skill-seeker/main/uninstall.sh | bash
+```
+
+**Or manually in Claude Code:**
+```
+/plugin uninstall skill-seeker
+/plugin marketplace remove skill-seeker
+```
+
 ### Updating
 
 Plugin updates are handled automatically by Claude Code. To manually refresh:
 ```
 /plugin marketplace update skill-seeker
 ```
+
+### Testing Development Branches
+
+Want to test a fix or feature before it's merged? See [TESTING-DEV-BRANCH.md](TESTING-DEV-BRANCH.md) for:
+- Testing locally with `--plugin-dir` (fastest)
+- Installing from specific branches
+- Comparing main vs development versions
+- Automated testing scripts
 
 ### New Features (v2.0)
 

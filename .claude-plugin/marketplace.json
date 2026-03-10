@@ -10,6 +10,7 @@
   "plugins": [
     {
       "name": "skill-seeker",
+      "source": "./",
       "description": "Discover, evaluate, and install community-created Claude Code skills from GitHub. Search for AI behavioral frameworks, prompt-based skills, and specialized personas to enhance Claude's capabilities.",
       "version": "0.2.0",
       "author": {
