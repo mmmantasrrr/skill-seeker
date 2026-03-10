@@ -9,11 +9,6 @@
 
 set -euo pipefail
 
-AUTH_HEADER=""
-if [[ -n "${GITHUB_TOKEN:-}" ]]; then
-    AUTH_HEADER="-H \"Authorization: token $GITHUB_TOKEN\""
-fi
-
 gh_api() {
     local url="$1"
     if [[ -n "${GITHUB_TOKEN:-}" ]]; then

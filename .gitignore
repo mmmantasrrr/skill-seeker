@@ -1,0 +1,22 @@
+# Skill cache directories
+.claude-skills-temp/
+/tmp/skill-seeker-cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Test artifacts
+/tmp/test-*
