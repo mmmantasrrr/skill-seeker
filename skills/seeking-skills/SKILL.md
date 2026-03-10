@@ -5,7 +5,7 @@ description: Use when starting a complex task where community skills, design fra
 
 # Seeking Community Skills
 
-Before tackling complex or domain-specific tasks, consider whether a community skill might exist. Use `/skill-seeker:seek <query>` to search GitHub for proven patterns, design frameworks, and specialized knowledge.
+Before tackling complex or domain-specific tasks, consider whether a community skill might exist. Search GitHub for proven patterns, design frameworks, and specialized knowledge.
 
 ## When to Suggest
 
@@ -19,15 +19,20 @@ Before tackling complex or domain-specific tasks, consider whether a community s
 - You already have a loaded skill for this domain
 - User says not to search
 
-## Available Commands
+## How to Execute Commands
 
-- `/skill-seeker:seek <query>` — Search for skills
-- `/skill-seeker:browse <owner/repo>` — List skills in a repo
-- `/skill-seeker:install <target>` — Fetch and install a skill
-- `/skill-seeker:status` — Show loaded skills
-- `/skill-seeker:reload` — Load from cache
-- `/skill-seeker:update` — Check for and apply plugin updates
-- `/skill-seeker:unload` — Clean up temp files
+All skill-seeker scripts and detailed command instructions are in `~/.skill-seeker/`.
+When executing any command below, read the corresponding file for detailed steps:
+
+| Command | Instruction file |
+|---------|-----------------|
+| **Seek / search for skills** | Read `~/.skill-seeker/commands/seek.md` |
+| **Browse skills in a repo** | Read `~/.skill-seeker/commands/browse.md` |
+| **Install a skill** | Read `~/.skill-seeker/commands/install.md` |
+| **Show loaded skills** | Read `~/.skill-seeker/commands/status.md` |
+| **Reload from cache** | Read `~/.skill-seeker/commands/reload.md` |
+| **Update skill-seeker** | Run `cd ~/.skill-seeker && git pull` |
+| **Clean up temp files** | Read `~/.skill-seeker/commands/unload.md` |
 
 ## Project Profiles
 

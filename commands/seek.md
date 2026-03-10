@@ -14,13 +14,13 @@ Search for community-created Claude Code skills matching the user's query using 
 
 1. Run the combined search script that merges registry and GitHub results:
    ```bash
-   bash "${CLAUDE_PLUGIN_ROOT}/scripts/search-combined.sh" "<query>"
+   bash "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}/scripts/search-combined.sh" "<query>"
    ```
 
    **If search-combined.sh doesn't exist yet**, run both scripts separately:
    ```bash
-   bash "${CLAUDE_PLUGIN_ROOT}/scripts/search-registry.sh" "<query>"
-   bash "${CLAUDE_PLUGIN_ROOT}/scripts/search-github.sh" "<query>"
+   bash "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}/scripts/search-registry.sh" "<query>"
+   bash "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}/scripts/search-github.sh" "<query>"
    ```
    Then merge results, deduplicating by repository name.
 

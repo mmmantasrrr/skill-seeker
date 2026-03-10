@@ -15,7 +15,7 @@ Fetch a specific skill file from GitHub, run security scanning, and install it l
 1. **Check if target is a registry ID**: If the target doesn't contain a slash, look it up in the registry:
    ```bash
    # Extract repo and path from registry.json for the given skill ID
-   grep -A 5 '"id": "<target>"' "${CLAUDE_PLUGIN_ROOT}/registry.json"
+   grep -A 5 '"id": "<target>"' "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}/registry.json"
    ```
    If found, use the `repo` and `path` fields. This enables quick-install for known skills.
 
@@ -23,12 +23,12 @@ Fetch a specific skill file from GitHub, run security scanning, and install it l
 
 3. Fetch the skill file:
    ```bash
-   bash "${CLAUDE_PLUGIN_ROOT}/scripts/fetch-skill.sh" "<owner>" "<repo>" "<path>"
+   bash "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}/scripts/fetch-skill.sh" "<owner>" "<repo>" "<path>"
    ```
 
 4. Run the security scanner on the fetched content:
    ```bash
-   python3 "${CLAUDE_PLUGIN_ROOT}/scripts/scan-skill.py" "/tmp/skill-seeker-cache/<owner>/<repo>/<filename>"
+   python3 "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}/scripts/scan-skill.py" "/tmp/skill-seeker-cache/<owner>/<repo>/<filename>"
    ```
 
 5. **If scanner reports HIGH or CRITICAL**: Warn the user and show the specific findings. Do NOT proceed without explicit acknowledgment.

@@ -122,30 +122,32 @@ Claude (with Skill-Seeker loaded):
 curl -fsSL https://raw.githubusercontent.com/mmmantasrrr/skill-seeker/main/install.sh | bash
 ```
 
-**Via npm:**
-```bash
-npm install -g skill-seeker
-```
+This clones skill-seeker to `~/.skill-seeker/` and — if run from inside a project — sets up the skill in your project's `.claude/skills/` directory so Claude Code discovers it automatically.
 
 **Manual install:**
 ```bash
-git clone https://github.com/mmmantasrrr/skill-seeker.git ~/.claude/plugins/skill-seeker
+# 1. Clone the repository
+git clone https://github.com/mmmantasrrr/skill-seeker.git ~/.skill-seeker
+
+# 2. In each project where you want the skill, copy the SKILL.md:
+cd your-project
+mkdir -p .claude/skills/seeking-skills
+cp ~/.skill-seeker/skills/seeking-skills/SKILL.md .claude/skills/seeking-skills/SKILL.md
 ```
 
-After installing, restart Claude Code to load the plugin.
+After installing, start (or restart) Claude Code in your project — the skill loads automatically.
 
 > **Dependencies:** `curl`, `jq`, `python3`, and `git`. Set `GITHUB_TOKEN` for higher API rate limits (5,000 vs 60 requests/hour).
 
 ### Updating
 
-Update from within Claude Code:
-```
-/skill-seeker:update
+```bash
+cd ~/.skill-seeker && git pull
 ```
 
-Or manually:
+To also update the skill in your project:
 ```bash
-cd ~/.claude/plugins/skill-seeker && git pull
+cp ~/.skill-seeker/skills/seeking-skills/SKILL.md .claude/skills/seeking-skills/SKILL.md
 ```
 
 ### New Features (v2.0)
@@ -168,15 +170,17 @@ See [PROJECT-PROFILES.md](PROJECT-PROFILES.md) for detailed information on proje
 
 ### Commands
 
+Once the skill is loaded, Claude can execute these commands (read the corresponding file from `~/.skill-seeker/commands/` for details):
+
 | Command | Purpose |
 |---------|---------|
-| `/skill-seeker:seek <query>` | Search GitHub for skills matching a query |
-| `/skill-seeker:browse <owner/repo>` | List all skills in a specific repository |
-| `/skill-seeker:install <target>` | Fetch, scan, and install a skill (supports registry IDs) |
-| `/skill-seeker:status` | Show loaded skills and context budget |
-| `/skill-seeker:reload [target]` | Quickly reload a skill from cache |
-| `/skill-seeker:update` | Check for and apply plugin updates |
-| `/skill-seeker:unload` | Clean up temporary skill files |
+| **seek** `<query>` | Search GitHub for skills matching a query |
+| **browse** `<owner/repo>` | List all skills in a specific repository |
+| **install** `<target>` | Fetch, scan, and install a skill (supports registry IDs) |
+| **status** | Show loaded skills and context budget |
+| **reload** `[target]` | Quickly reload a skill from cache |
+| **update** | Check for and apply skill-seeker updates |
+| **unload** | Clean up temporary skill files |
 
 ### Prerequisites
 

@@ -1,6 +1,6 @@
 ---
 name: update
-description: Check for and apply updates to the skill-seeker plugin
+description: Check for and apply updates to the skill-seeker installation
 user-invokable: true
 args: []
 ---
@@ -9,19 +9,19 @@ Check for new versions of skill-seeker and apply updates.
 
 ## Steps
 
-1. Read the current version from plugin.json:
+1. Read the current version:
    ```bash
-   cat "${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json" | grep '"version"' | head -1
+   cat "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}/.claude-plugin/plugin.json" | grep '"version"' | head -1
    ```
 
 2. Fetch the latest version from GitHub (without modifying the working tree):
    ```bash
-   cd "${CLAUDE_PLUGIN_ROOT}" && git fetch origin main 2>&1
+   cd "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}" && git fetch origin main 2>&1
    ```
 
 3. Check if updates are available:
    ```bash
-   cd "${CLAUDE_PLUGIN_ROOT}" && git log HEAD..origin/main --oneline 2>/dev/null
+   cd "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}" && git log HEAD..origin/main --oneline 2>/dev/null
    ```
 
 4. **If no updates**: Report that skill-seeker is already up to date.
@@ -33,15 +33,22 @@ Check for new versions of skill-seeker and apply updates.
 
 6. On confirmation, apply the update:
    ```bash
-   cd "${CLAUDE_PLUGIN_ROOT}" && git pull origin main 2>&1
+   cd "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}" && git pull origin main 2>&1
    ```
 
 7. Verify the update succeeded by reading the new version:
    ```bash
-   cat "${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json" | grep '"version"' | head -1
+   cat "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}/.claude-plugin/plugin.json" | grep '"version"' | head -1
    ```
 
-8. Report the result:
+8. After a successful update, also refresh the SKILL.md in the current project if it exists:
+   ```bash
+   if [ -f ".claude/skills/seeking-skills/SKILL.md" ]; then
+     cp "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}/skills/seeking-skills/SKILL.md" .claude/skills/seeking-skills/SKILL.md
+   fi
+   ```
+
+9. Report the result:
    - Previous version → new version
    - Suggest restarting Claude Code if there were significant changes
 
