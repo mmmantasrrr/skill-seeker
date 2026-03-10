@@ -1,0 +1,67 @@
+{
+  "name": "skill-seeker",
+  "version": "0.1.0",
+  "description": "Discover, evaluate, and install community-created Claude Code skills from GitHub. Search for AI behavioral frameworks, prompt-based skills, and specialized personas to enhance Claude's capabilities.",
+  "main": "index.js",
+  "scripts": {
+    "test": "python3 tests/test_scan_skill.py",
+    "search": "bash scripts/search-github.sh",
+    "search-registry": "bash scripts/search-registry.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmmantasrrr/skill-seeker.git"
+  },
+  "keywords": [
+    "claude-code",
+    "claude-skills",
+    "ai-skills",
+    "ai-tools",
+    "claude-plugin",
+    "skills-discovery",
+    "skill-marketplace",
+    "behavioral-frameworks",
+    "prompt-engineering",
+    "ai-personas",
+    "skill-management",
+    "meta-skill",
+    "automation",
+    "productivity",
+    "ai-enhancement",
+    "code-assistant",
+    "developer-tools",
+    "security-scanner",
+    "github-search",
+    "claude-ai",
+    "llm-tools",
+    "ai-assistant",
+    "dev-tools",
+    "programming-tools",
+    "software-development",
+    "code-quality",
+    "best-practices",
+    "design-patterns",
+    "coding-standards",
+    "skill-loader",
+    "plugin-system",
+    "ai-framework",
+    "prompt-library",
+    "skill-registry",
+    "community-driven",
+    "open-source-tools"
+  ],
+  "author": "skilldev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mmmantasrrr/skill-seeker/issues"
+  },
+  "homepage": "https://github.com/mmmantasrrr/skill-seeker#readme",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ]
+}
