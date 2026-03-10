@@ -1,0 +1,33 @@
+{
+  "name": "skill-seeker",
+  "owner": {
+    "name": "skilldev"
+  },
+  "metadata": {
+    "description": "Discover, evaluate, and install community Claude Code skills from GitHub",
+    "version": "0.2.0"
+  },
+  "plugins": [
+    {
+      "name": "skill-seeker",
+      "source": ".",
+      "description": "Discover, evaluate, and install community-created Claude Code skills from GitHub. Search for AI behavioral frameworks, prompt-based skills, and specialized personas to enhance Claude's capabilities.",
+      "version": "0.2.0",
+      "author": {
+        "name": "skilldev"
+      },
+      "homepage": "https://github.com/mmmantasrrr/skill-seeker",
+      "repository": "https://github.com/mmmantasrrr/skill-seeker",
+      "license": "MIT",
+      "keywords": [
+        "claude-code",
+        "claude-skills",
+        "skills-discovery",
+        "skill-marketplace",
+        "ai-skills",
+        "security-scanner"
+      ],
+      "category": "development-workflows"
+    }
+  ]
+}

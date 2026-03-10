@@ -1,8 +1,7 @@
 {
   "name": "skill-seeker",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Discover, evaluate, and install community-created Claude Code skills from GitHub. Search for AI behavioral frameworks, prompt-based skills, and specialized personas to enhance Claude's capabilities.",
-  "main": "index.js",
   "scripts": {
     "test": "python3 tests/test_scan_skill.py",
     "search": "bash scripts/search-github.sh",
@@ -55,13 +54,5 @@
   "bugs": {
     "url": "https://github.com/mmmantasrrr/skill-seeker/issues"
   },
-  "homepage": "https://github.com/mmmantasrrr/skill-seeker#readme",
-  "engines": {
-    "node": ">=12.0.0"
-  },
-  "os": [
-    "darwin",
-    "linux",
-    "win32"
-  ]
+  "homepage": "https://github.com/mmmantasrrr/skill-seeker#readme"
 }

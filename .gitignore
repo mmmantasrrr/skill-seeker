@@ -2,6 +2,9 @@
 .claude-skills-temp/
 /tmp/skill-seeker-cache/
 
+# Dependencies
+node_modules/
+
 # OS files
 .DS_Store
 Thumbs.db

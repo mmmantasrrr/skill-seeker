@@ -117,9 +117,35 @@ Claude (with Skill-Seeker loaded):
 
 ### Installation
 
-1. Clone or download this repository to your Claude Code plugins directory
-2. Ensure you have the required dependencies: `curl`, `jq`, and `python3`
-3. (Optional) Set `GITHUB_TOKEN` environment variable for higher API rate limits
+**From the Claude Code plugin marketplace (recommended):**
+
+Inside Claude Code, run:
+```
+/plugin marketplace add mmmantasrrr/skill-seeker
+/plugin install skill-seeker@skill-seeker
+```
+
+**One-line install from terminal:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/mmmantasrrr/skill-seeker/main/install.sh | bash
+```
+
+**Test locally without installing:**
+```bash
+git clone https://github.com/mmmantasrrr/skill-seeker.git
+claude --plugin-dir ./skill-seeker
+```
+
+After installing, restart Claude Code to load the plugin. Then try `/skill-seeker:seek react hooks`.
+
+> **Dependencies:** `curl`, `jq`, and `python3`. Set `GITHUB_TOKEN` for higher API rate limits (5,000 vs 60 requests/hour).
+
+### Updating
+
+Plugin updates are handled automatically by Claude Code. To manually refresh:
+```
+/plugin marketplace update skill-seeker
+```
 
 ### New Features (v2.0)
 
@@ -170,7 +196,8 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for a detailed technical breakdown coveri
 ```
 skill-seeker/
 ├── .claude-plugin/
-│   └── plugin.json          # Plugin metadata
+│   ├── plugin.json          # Plugin metadata
+│   └── marketplace.json     # Marketplace catalog for plugin discovery
 ├── commands/
 │   ├── seek.md              # Search GitHub for skills
 │   ├── browse.md            # Browse skills in a repo
@@ -262,6 +289,7 @@ Want to see your skill featured here? Submit it to our registry!
 - [x] Curated registry with verified skills
 - [x] Hybrid search (registry + GitHub API)
 - [x] Security scanning with 9 detection categories
+- [x] Native Claude Code plugin marketplace integration
 - [ ] Multi-source search (GitLab, Bitbucket)
 - [ ] Local caching and offline mode
 - [ ] Semantic search with embeddings

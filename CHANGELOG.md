@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-03-10
+
+### Added
+- `.claude-plugin/marketplace.json` for native Claude Code plugin marketplace discovery
+- `install.sh` helper script that uses native `claude plugin` CLI commands
+
+### Changed
+- Installation now uses Claude Code's native plugin system (`/plugin marketplace add` + `/plugin install`)
+- Updates handled natively by the plugin system instead of custom update command
+- Removed `commands/update.md` (superseded by native plugin updates)
+- Updated README with proper marketplace installation instructions
+
 ## [0.1.0] - 2026-03-10
 
 ### Added
