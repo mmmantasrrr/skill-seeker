@@ -117,37 +117,34 @@ Claude (with Skill-Seeker loaded):
 
 ### Installation
 
-**One-line install (recommended):**
+**From the Claude Code plugin marketplace (recommended):**
+
+Inside Claude Code, run:
+```
+/plugin marketplace add mmmantasrrr/skill-seeker
+/plugin install skill-seeker@skill-seeker
+```
+
+**One-line install from terminal:**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/mmmantasrrr/skill-seeker/main/install.sh | bash
 ```
 
-This clones skill-seeker to `~/.skill-seeker/` and — if run from inside a project — sets up the skill in your project's `.claude/skills/` directory so Claude Code discovers it automatically.
-
-**Manual install:**
+**Test locally without installing:**
 ```bash
-# 1. Clone the repository
-git clone https://github.com/mmmantasrrr/skill-seeker.git ~/.skill-seeker
-
-# 2. In each project where you want the skill, copy the SKILL.md:
-cd your-project
-mkdir -p .claude/skills/seeking-skills
-cp ~/.skill-seeker/skills/seeking-skills/SKILL.md .claude/skills/seeking-skills/SKILL.md
+git clone https://github.com/mmmantasrrr/skill-seeker.git
+claude --plugin-dir ./skill-seeker
 ```
 
-After installing, start (or restart) Claude Code in your project — the skill loads automatically.
+After installing, restart Claude Code to load the plugin. Then try `/skill-seeker:seek react hooks`.
 
-> **Dependencies:** `curl`, `jq`, `python3`, and `git`. Set `GITHUB_TOKEN` for higher API rate limits (5,000 vs 60 requests/hour).
+> **Dependencies:** `curl`, `jq`, and `python3`. Set `GITHUB_TOKEN` for higher API rate limits (5,000 vs 60 requests/hour).
 
 ### Updating
 
-```bash
-cd ~/.skill-seeker && git pull
+Plugin updates are handled automatically by Claude Code. To manually refresh:
 ```
-
-To also update the skill in your project:
-```bash
-cp ~/.skill-seeker/skills/seeking-skills/SKILL.md .claude/skills/seeking-skills/SKILL.md
+/plugin marketplace update skill-seeker
 ```
 
 ### New Features (v2.0)
@@ -170,21 +167,18 @@ See [PROJECT-PROFILES.md](PROJECT-PROFILES.md) for detailed information on proje
 
 ### Commands
 
-Once the skill is loaded, Claude can execute these commands (read the corresponding file from `~/.skill-seeker/commands/` for details):
-
 | Command | Purpose |
 |---------|---------|
-| **seek** `<query>` | Search GitHub for skills matching a query |
-| **browse** `<owner/repo>` | List all skills in a specific repository |
-| **install** `<target>` | Fetch, scan, and install a skill (supports registry IDs) |
-| **status** | Show loaded skills and context budget |
-| **reload** `[target]` | Quickly reload a skill from cache |
-| **update** | Check for and apply skill-seeker updates |
-| **unload** | Clean up temporary skill files |
+| `/skill-seeker:seek <query>` | Search GitHub for skills matching a query |
+| `/skill-seeker:browse <owner/repo>` | List all skills in a specific repository |
+| `/skill-seeker:install <target>` | Fetch, scan, and install a skill (supports registry IDs) |
+| `/skill-seeker:status` | Show loaded skills and context budget |
+| `/skill-seeker:reload [target]` | Quickly reload a skill from cache |
+| `/skill-seeker:unload` | Clean up temporary skill files |
 
 ### Prerequisites
 
-- `curl`, `jq`, and `git` for GitHub API calls and installation
+- `curl` and `jq` for GitHub API calls
 - `python3` for security scanning
 - Optional: `GITHUB_TOKEN` environment variable for higher API rate limits (5,000 vs 60 requests/hour)
 
@@ -202,14 +196,14 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for a detailed technical breakdown coveri
 ```
 skill-seeker/
 ├── .claude-plugin/
-│   └── plugin.json          # Plugin metadata
+│   ├── plugin.json          # Plugin metadata
+│   └── marketplace.json     # Marketplace catalog for plugin discovery
 ├── commands/
 │   ├── seek.md              # Search GitHub for skills
 │   ├── browse.md            # Browse skills in a repo
 │   ├── install.md           # Fetch, scan, and install a skill (supports registry IDs)
 │   ├── status.md            # Show loaded skills and context budget
 │   ├── reload.md            # Quickly reload skills from cache
-│   ├── update.md            # Check for and apply plugin updates
 │   └── unload.md            # Clean up temporary files
 ├── scripts/
 │   ├── search-combined.sh   # Combined registry + GitHub search
@@ -295,7 +289,7 @@ Want to see your skill featured here? Submit it to our registry!
 - [x] Curated registry with verified skills
 - [x] Hybrid search (registry + GitHub API)
 - [x] Security scanning with 9 detection categories
-- [x] One-line install and in-plugin updates
+- [x] Native Claude Code plugin marketplace integration
 - [ ] Multi-source search (GitLab, Bitbucket)
 - [ ] Local caching and offline mode
 - [ ] Semantic search with embeddings

@@ -24,30 +24,27 @@ $ /skill-seeker:seek frontend
 
 **Diagnosis**:
 ```bash
-# Check if plugin is installed
-ls -la ~/.claude/plugins/skill-seeker
-
-# Verify plugin.json exists
-cat ~/.claude/plugins/skill-seeker/.claude-plugin/plugin.json
+# Check if plugin is installed (inside Claude Code)
+/plugin
+# Go to the "Installed" tab and look for skill-seeker
 ```
 
 **Solutions**:
 
-1. **Verify plugin location**:
-```bash
-# Plugin should be in Claude's plugin directory
-cd ~/.claude/plugins  # Or your Claude plugins path
-git clone https://github.com/mmmantasrrr/skill-seeker.git
+1. **Install via the plugin marketplace**:
+```
+# Inside Claude Code:
+/plugin marketplace add mmmantasrrr/skill-seeker
+/plugin install skill-seeker@skill-seeker
 ```
 
 2. **Restart Claude Code**:
-After installing or moving the plugin, restart Claude Code completely.
+After installing, restart Claude Code completely.
 
-3. **Check plugin.json is valid**:
+3. **Test locally**:
 ```bash
-cd skill-seeker
-cat .claude-plugin/plugin.json | jq
-# Should show valid JSON without errors
+git clone https://github.com/mmmantasrrr/skill-seeker.git
+claude --plugin-dir ./skill-seeker
 ```
 
 4. **Verify file permissions**:

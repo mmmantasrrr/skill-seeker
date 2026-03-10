@@ -8,14 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.0] - 2026-03-10
 
 ### Added
-- One-line install script (`install.sh`) for quick setup via `curl | bash`
-- `/skill-seeker:update` command to check for and apply plugin updates from within Claude
-- npm distribution support (`npm install -g skill-seeker`)
-- Installation metadata in plugin.json for marketplace discoverability
+- `.claude-plugin/marketplace.json` for native Claude Code plugin marketplace discovery
+- `install.sh` helper script that uses native `claude plugin` CLI commands
 
 ### Changed
-- Updated README with multiple installation methods (curl, npm, manual)
-- Bumped version to 0.2.0
+- Installation now uses Claude Code's native plugin system (`/plugin marketplace add` + `/plugin install`)
+- Updates handled natively by the plugin system instead of custom update command
+- Removed `commands/update.md` (superseded by native plugin updates)
+- Updated README with proper marketplace installation instructions
 
 ## [0.1.0] - 2026-03-10
 

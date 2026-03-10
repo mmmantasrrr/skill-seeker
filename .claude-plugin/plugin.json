@@ -37,10 +37,5 @@
   },
   "license": "MIT",
   "skills": "./skills",
-  "commands": "./commands",
-  "installation": {
-    "quick": "curl -fsSL https://raw.githubusercontent.com/mmmantasrrr/skill-seeker/main/install.sh | bash",
-    "npm": "npm install -g skill-seeker",
-    "manual": "git clone https://github.com/mmmantasrrr/skill-seeker.git ~/.claude/plugins/skill-seeker"
-  }
+  "commands": "./commands"
 }

@@ -14,7 +14,7 @@ Browse the skills available in a specific GitHub repository.
 
 1. Fetch the repository's file tree to find skill files:
    ```bash
-   bash "${CLAUDE_PLUGIN_ROOT:-$HOME/.skill-seeker}/scripts/search-github.sh" --browse "<repo>"
+   bash "${CLAUDE_PLUGIN_ROOT}/scripts/search-github.sh" --browse "<repo>"
    ```
 
 2. Present all discovered skills to the user:
