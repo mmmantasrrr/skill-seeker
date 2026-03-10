@@ -38,12 +38,53 @@ Skill-Seeker is a **meta-skill**: it teaches Claude Code to autonomously find an
 
 ## 💡 Use Cases
 
-- **Frontend Development**: Load design audit frameworks for UI/UX improvements
-- **Security Audits**: Apply OWASP security checklists to code reviews
-- **Testing**: Integrate Playwright best practices for browser automation
-- **DevOps**: Apply Terraform patterns and Docker optimization guides
-- **Code Quality**: Load language-specific idioms and best practices
-- **API Design**: Apply REST API design patterns and conventions
+Skill-Seeker helps developers solve these common challenges:
+
+### Frontend Development
+- **React component patterns** - Learn hooks, composition, and state management
+- **CSS architecture** - BEM, CSS-in-JS, Tailwind patterns
+- **UI/UX design audit** - Apply professional design principles
+- **Responsive design** - Mobile-first, breakpoints, fluid layouts
+- **Web accessibility** - WCAG compliance, ARIA attributes, screen readers
+- **Performance optimization** - Bundle size, lazy loading, code splitting
+
+### Backend Development
+- **REST API design** - Endpoint naming, HTTP methods, status codes
+- **GraphQL schema patterns** - Type design, resolvers, N+1 prevention
+- **Database design** - Schema normalization, indexing, query optimization
+- **Microservices architecture** - Service boundaries, communication patterns
+- **Error handling** - Centralized handlers, logging, user messages
+- **Authentication & authorization** - JWT, OAuth, RBAC, security best practices
+
+### Testing & Quality Assurance
+- **Playwright browser testing** - E2E tests, page objects, reliable selectors
+- **Unit testing patterns** - Mocking, test isolation, assertion strategies
+- **Integration testing** - API testing, database testing, test data management
+- **Test-driven development** - Red-green-refactor, test-first approach
+- **Code coverage** - Coverage goals, meaningful metrics
+
+### DevOps & Infrastructure
+- **Terraform infrastructure** - Module design, state management, best practices
+- **Docker optimization** - Multi-stage builds, layer caching, image size reduction
+- **Kubernetes deployment** - YAML manifests, helm charts, resource management
+- **CI/CD pipelines** - GitHub Actions, build optimization, deployment strategies
+- **Monitoring & logging** - Observability, alerting, debugging production issues
+
+### Security
+- **OWASP Top 10** - SQL injection, XSS, CSRF, security misconfiguration
+- **Secure coding practices** - Input validation, output encoding, parameterized queries
+- **Authentication security** - Password hashing, session management, token security
+- **API security** - Rate limiting, API keys, OAuth flows
+- **Dependency scanning** - Vulnerability detection, update strategies
+
+### Code Quality
+- **Clean code principles** - SOLID, DRY, KISS, naming conventions
+- **Refactoring patterns** - Extract method, simplify conditionals, remove duplication
+- **Code review checklist** - What to look for, constructive feedback
+- **Documentation standards** - JSDoc, docstrings, README templates
+- **Git workflow** - Commit messages, branching strategies, PR conventions
+
+See [EXAMPLES.md](EXAMPLES.md) for detailed examples with before/after comparisons.
 
 ### Example Workflow
 
@@ -149,9 +190,17 @@ Results are scored on: stars (log scale), recency, forks, proper tagging, licens
 
 ## 📖 Documentation
 
+### Getting Started
+- [EXAMPLES.md](EXAMPLES.md) - **22 real-world use cases** with before/after examples
+- [FAQ.md](FAQ.md) - Frequently asked questions with comprehensive answers
+- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Solutions to common problems
+
+### Technical Documentation
 - [ARCHITECTURE.md](ARCHITECTURE.md) - Technical deep-dive into system design
 - [CONTRIBUTING-REGISTRY.md](CONTRIBUTING-REGISTRY.md) - How to add skills to the registry
 - [RESEARCH-SKILL-DISCOVERY.md](RESEARCH-SKILL-DISCOVERY.md) - Research and expansion roadmap
+
+### Policies
 - [SECURITY.md](SECURITY.md) - Security policy and vulnerability reporting
 - [CHANGELOG.md](CHANGELOG.md) - Version history and updates
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Community guidelines
