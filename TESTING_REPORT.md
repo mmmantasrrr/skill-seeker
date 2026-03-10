@@ -305,7 +305,7 @@ In testing, the firewall was explicitly disabled mid-session but `api.github.com
 
 The root cause is that `gh_api()` performs no response validation. Non-JSON responses (like `"Blocked by DNS monitoring proxy"`) flow through unchecked.
 
-**Recommendation — add a connectivity check and response validation:**
+**Recommendation:** Add a connectivity check and response validation:
 ```bash
 gh_api() {
     local url="$1"
