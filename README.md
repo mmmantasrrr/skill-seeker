@@ -19,6 +19,17 @@
 
 A Claude Code plugin that discovers, evaluates, and installs community-created skills from GitHub. Before tackling a complex task, Skill-Seeker searches for existing behavioral frameworks, prompt-based skills, and specialized personas that can be injected into your context.
 
+Think of it as **npm for AI prompts** or a **package manager for Claude Code behavioral frameworks**. Instead of manually searching GitHub for best practices, design patterns, or coding standards, Skill-Seeker automates discovery, validates quality, scans for security issues, and installs skills with a single command.
+
+**Perfect for developers who want Claude to:**
+- Apply React hooks best practices
+- Follow REST API design patterns
+- Conduct security audits with OWASP guidelines
+- Write Playwright browser tests correctly
+- Use Terraform infrastructure patterns
+- Apply clean code principles
+- Follow specific framework conventions
+
 > ⭐ **Like this project?** Give us a star on GitHub to help others discover Skill-Seeker!
 
 ## 🎯 What It Does
@@ -194,6 +205,7 @@ Results are scored on: stars (log scale), recency, forks, proper tagging, licens
 - [EXAMPLES.md](EXAMPLES.md) - **22 real-world use cases** with before/after examples
 - [FAQ.md](FAQ.md) - Frequently asked questions with comprehensive answers
 - [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Solutions to common problems
+- [COMPARISON.md](COMPARISON.md) - How Skill-Seeker compares to alternatives
 
 ### Technical Documentation
 - [ARCHITECTURE.md](ARCHITECTURE.md) - Technical deep-dive into system design
