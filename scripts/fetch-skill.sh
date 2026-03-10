@@ -22,19 +22,19 @@ LOCAL_PATH="$CACHE_DIR/$FILENAME"
 
 mkdir -p "$CACHE_DIR"
 
-URL="https://raw.githubusercontent.com/$OWNER/$REPO/$BRANCH/$FILEPATH"
+DOWNLOAD_URL="https://raw.githubusercontent.com/$OWNER/$REPO/$BRANCH/$FILEPATH"
 
-HTTP_CODE=$(curl -s -w "%{http_code}" -o "$LOCAL_PATH" "$URL")
+HTTP_STATUS_CODE=$(curl -s -w "%{http_code}" -o "$LOCAL_PATH" "$DOWNLOAD_URL")
 
-if [[ "$HTTP_CODE" != "200" ]]; then
+if [[ "$HTTP_STATUS_CODE" != "200" ]]; then
     # Try 'master' branch if 'main' failed
     if [[ "$BRANCH" == "main" ]]; then
-        URL="https://raw.githubusercontent.com/$OWNER/$REPO/master/$FILEPATH"
-        HTTP_CODE=$(curl -s -w "%{http_code}" -o "$LOCAL_PATH" "$URL")
+        DOWNLOAD_URL="https://raw.githubusercontent.com/$OWNER/$REPO/master/$FILEPATH"
+        HTTP_STATUS_CODE=$(curl -s -w "%{http_code}" -o "$LOCAL_PATH" "$DOWNLOAD_URL")
     fi
 
-    if [[ "$HTTP_CODE" != "200" ]]; then
-        echo "ERROR: Failed to fetch $URL (HTTP $HTTP_CODE)" >&2
+    if [[ "$HTTP_STATUS_CODE" != "200" ]]; then
+        echo "ERROR: Failed to fetch $DOWNLOAD_URL (HTTP $HTTP_STATUS_CODE)" >&2
         rm -f "$LOCAL_PATH"
         exit 1
     fi
