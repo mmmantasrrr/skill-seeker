@@ -117,9 +117,36 @@ Claude (with Skill-Seeker loaded):
 
 ### Installation
 
-1. Clone or download this repository to your Claude Code plugins directory
-2. Ensure you have the required dependencies: `curl`, `jq`, and `python3`
-3. (Optional) Set `GITHUB_TOKEN` environment variable for higher API rate limits
+**One-line install (recommended):**
+```bash
+curl -fsSL https://raw.githubusercontent.com/mmmantasrrr/skill-seeker/main/install.sh | bash
+```
+
+**Via npm:**
+```bash
+npm install -g skill-seeker
+```
+
+**Manual install:**
+```bash
+git clone https://github.com/mmmantasrrr/skill-seeker.git ~/.claude/plugins/skill-seeker
+```
+
+After installing, restart Claude Code to load the plugin.
+
+> **Dependencies:** `curl`, `jq`, `python3`, and `git`. Set `GITHUB_TOKEN` for higher API rate limits (5,000 vs 60 requests/hour).
+
+### Updating
+
+Update from within Claude Code:
+```
+/skill-seeker:update
+```
+
+Or manually:
+```bash
+cd ~/.claude/plugins/skill-seeker && git pull
+```
 
 ### New Features (v2.0)
 
@@ -148,11 +175,12 @@ See [PROJECT-PROFILES.md](PROJECT-PROFILES.md) for detailed information on proje
 | `/skill-seeker:install <target>` | Fetch, scan, and install a skill (supports registry IDs) |
 | `/skill-seeker:status` | Show loaded skills and context budget |
 | `/skill-seeker:reload [target]` | Quickly reload a skill from cache |
+| `/skill-seeker:update` | Check for and apply plugin updates |
 | `/skill-seeker:unload` | Clean up temporary skill files |
 
 ### Prerequisites
 
-- `curl` and `jq` for GitHub API calls
+- `curl`, `jq`, and `git` for GitHub API calls and installation
 - `python3` for security scanning
 - Optional: `GITHUB_TOKEN` environment variable for higher API rate limits (5,000 vs 60 requests/hour)
 
@@ -177,6 +205,7 @@ skill-seeker/
 │   ├── install.md           # Fetch, scan, and install a skill (supports registry IDs)
 │   ├── status.md            # Show loaded skills and context budget
 │   ├── reload.md            # Quickly reload skills from cache
+│   ├── update.md            # Check for and apply plugin updates
 │   └── unload.md            # Clean up temporary files
 ├── scripts/
 │   ├── search-combined.sh   # Combined registry + GitHub search
@@ -262,6 +291,7 @@ Want to see your skill featured here? Submit it to our registry!
 - [x] Curated registry with verified skills
 - [x] Hybrid search (registry + GitHub API)
 - [x] Security scanning with 9 detection categories
+- [x] One-line install and in-plugin updates
 - [ ] Multi-source search (GitLab, Bitbucket)
 - [ ] Local caching and offline mode
 - [ ] Semantic search with embeddings

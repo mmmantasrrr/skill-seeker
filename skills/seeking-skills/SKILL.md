@@ -26,6 +26,7 @@ Before tackling complex or domain-specific tasks, consider whether a community s
 - `/skill-seeker:install <target>` — Fetch and install a skill
 - `/skill-seeker:status` — Show loaded skills
 - `/skill-seeker:reload` — Load from cache
+- `/skill-seeker:update` — Check for and apply plugin updates
 - `/skill-seeker:unload` — Clean up temp files
 
 ## Project Profiles

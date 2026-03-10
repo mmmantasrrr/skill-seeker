@@ -1,7 +1,7 @@
 {
   "name": "skill-seeker",
   "description": "Discover, evaluate, and install community-created Claude Code skills from GitHub. Search for AI behavioral frameworks, prompt-based skills, and specialized personas to enhance Claude's capabilities.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "skilldev"
   },
@@ -37,5 +37,10 @@
   },
   "license": "MIT",
   "skills": "./skills",
-  "commands": "./commands"
+  "commands": "./commands",
+  "installation": {
+    "quick": "curl -fsSL https://raw.githubusercontent.com/mmmantasrrr/skill-seeker/main/install.sh | bash",
+    "npm": "npm install -g skill-seeker",
+    "manual": "git clone https://github.com/mmmantasrrr/skill-seeker.git ~/.claude/plugins/skill-seeker"
+  }
 }

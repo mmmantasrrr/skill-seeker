@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-03-10
+
+### Added
+- One-line install script (`install.sh`) for quick setup via `curl | bash`
+- `/skill-seeker:update` command to check for and apply plugin updates from within Claude
+- npm distribution support (`npm install -g skill-seeker`)
+- Installation metadata in plugin.json for marketplace discoverability
+
+### Changed
+- Updated README with multiple installation methods (curl, npm, manual)
+- Bumped version to 0.2.0
+
 ## [0.1.0] - 2026-03-10
 
 ### Added
