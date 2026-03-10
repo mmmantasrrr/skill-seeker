@@ -95,7 +95,7 @@ Skill-Seeker helps developers solve these common challenges:
 - **Documentation standards** - JSDoc, docstrings, README templates
 - **Git workflow** - Commit messages, branching strategies, PR conventions
 
-See [EXAMPLES.md](EXAMPLES.md) for detailed examples with before/after comparisons.
+See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed usage tips and common questions.
 
 ### Example Workflow
 
@@ -179,21 +179,21 @@ skill-seeker/
 │   ├── reload.md            # Quickly reload skills from cache
 │   └── unload.md            # Clean up temporary files
 ├── scripts/
-│   ├── search-combined.sh   # Combined registry + GitHub search (NEW)
+│   ├── search-combined.sh   # Combined registry + GitHub search
 │   ├── search-registry.sh   # Curated registry search
 │   ├── search-github.sh     # GitHub API search & browse
-│   ├── resolve-skill-id.sh  # Resolve registry IDs to repo/path (NEW)
+│   ├── resolve-skill-id.sh  # Resolve registry IDs to repo/path
 │   ├── fetch-skill.sh       # Raw markdown fetching with caching
 │   └── scan-skill.py        # Security scanner (9 detection categories)
 ├── skills/
 │   └── seeking-skills/
-│       └── SKILL.md         # Meta-skill: when/how to seek skills (slimmed to ~200 tokens)
+│       └── SKILL.md         # Meta-skill: when/how to seek skills
 ├── tests/
 │   └── test_scan_skill.py   # Security scanner tests (34 tests)
-├── registry.json            # Curated skill registry (v1.1.0)
+├── registry.json            # Curated skill registry
 ├── .skill-seeker-profile.example.json  # Example project profile
 ├── ARCHITECTURE.md          # Technical deep-dive
-├── PROJECT-PROFILES.md      # Project skill profiles guide (NEW)
+├── PROJECT-PROFILES.md      # Project skill profiles guide
 └── README.md                # This file
 ```
 
@@ -241,18 +241,10 @@ Results are scored on: stars (log scale), recency, forks, proper tagging, licens
 
 ## 📖 Documentation
 
-### Getting Started
-- [EXAMPLES.md](EXAMPLES.md) - **22 real-world use cases** with before/after examples
-- [FAQ.md](FAQ.md) - Frequently asked questions with comprehensive answers
-- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Solutions to common problems
-- [COMPARISON.md](COMPARISON.md) - How Skill-Seeker compares to alternatives
-
-### Technical Documentation
 - [ARCHITECTURE.md](ARCHITECTURE.md) - Technical deep-dive into system design
 - [CONTRIBUTING-REGISTRY.md](CONTRIBUTING-REGISTRY.md) - How to add skills to the registry
-- [RESEARCH-SKILL-DISCOVERY.md](RESEARCH-SKILL-DISCOVERY.md) - Research and expansion roadmap
-
-### Policies
+- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Solutions to common problems and FAQ
+- [PROJECT-PROFILES.md](PROJECT-PROFILES.md) - Project skill profiles guide
 - [SECURITY.md](SECURITY.md) - Security policy and vulnerability reporting
 - [CHANGELOG.md](CHANGELOG.md) - Version history and updates
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Community guidelines

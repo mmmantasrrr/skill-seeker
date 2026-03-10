@@ -665,4 +665,59 @@ Help improve Skill-Seeker by reporting issues.
 
 ---
 
-**Need more help?** Open an [issue](https://github.com/mmmantasrrr/skill-seeker/issues) or check the [FAQ](FAQ.md).
+## Frequently Asked Questions
+
+### How is this different from MCP tools?
+
+| Feature | Skill-Seeker (Skills) | MCP Tools |
+|---------|----------------------|-----------|
+| **Type** | Behavioral frameworks (prompts) | Executable code |
+| **Purpose** | Shape AI thinking | Add capabilities |
+| **Installation** | Markdown files | Binary/code installation |
+| **Security** | Content scanning | Code execution |
+
+**Use Skill-Seeker when**: You want Claude to apply specific thinking patterns, frameworks, or best practices.
+
+**Use MCP tools when**: You need Claude to interact with external systems or execute code.
+
+### What's a "trust score"?
+
+Trust scores indicate skill quality based on:
+- Repository stars (log scale, max 40 points)
+- Recent activity (updated within 30 days, max 20 points)
+- Fork count (log scale, max 15 points)
+- Proper GitHub topics (5 points)
+- Not archived, has description, has license (5 points each)
+
+**Score ranges**: **60+** (HIGH) → **40–59** (MEDIUM) → **<40** (LOW)
+
+### Can I load multiple skills at once?
+
+Yes! You can install multiple complementary skills sequentially. Claude will apply all frameworks simultaneously. For best results, limit to 1–3 focused skills per session and unload any you no longer need.
+
+### How do I preview a skill before installing?
+
+Use the browse command to list all skills in a repository:
+```bash
+/skill-seeker:browse owner/repo
+```
+
+Then view the raw file on GitHub before installing.
+
+### Can I create my own skills?
+
+Yes! Skills are plain markdown files. Create a repository with a `.claude/skills/` directory, add your `SKILL.md` files, and install from your repo. See [pbakaus/impeccable](https://github.com/pbakaus/impeccable) for a reference example.
+
+### Can I use private repositories?
+
+Yes. You'll need a `GITHUB_TOKEN` with private repo access:
+```bash
+export GITHUB_TOKEN=ghp_your_token_here
+/skill-seeker:install owner/private-repo/path/to/SKILL.md
+```
+
+Note: private skills won't appear in public search results.
+
+---
+
+**Need more help?** Open an [issue](https://github.com/mmmantasrrr/skill-seeker/issues) or start a [discussion](https://github.com/mmmantasrrr/skill-seeker/discussions).
