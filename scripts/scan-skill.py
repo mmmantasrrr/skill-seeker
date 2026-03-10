@@ -155,11 +155,11 @@ ALLOWED_FRONTMATTER_KEYS = {
 def check_base64(content, lines):
     """Look for base64-encoded strings and decode them to check for injection."""
     findings = []
-    b64_pattern = re.compile(r'[A-Za-z0-9+/]{40,}={0,2}')
+    base64_pattern = re.compile(r'[A-Za-z0-9+/]{40,}={0,2}')
 
     for i, line in enumerate(lines, 1):
         # Skip lines inside code blocks
-        for match in b64_pattern.finditer(line):
+        for match in base64_pattern.finditer(line):
             encoded = match.group()
             try:
                 decoded = base64.b64decode(encoded).decode('utf-8', errors='ignore')
@@ -213,12 +213,12 @@ def check_unicode(content, lines):
                 })
 
         # Check for homoglyph-heavy lines (many non-ASCII chars that look like ASCII)
-        non_ascii = sum(1 for c in line if ord(c) > 127 and unicodedata.category(c).startswith('L'))
-        ascii_like = sum(1 for c in line if ord(c) <= 127 and c.isalpha())
-        if non_ascii > 5 and ascii_like > 0 and non_ascii / max(1, ascii_like) > 0.3:
+        non_ascii_letter_count = sum(1 for c in line if ord(c) > 127 and unicodedata.category(c).startswith('L'))
+        ascii_letter_count = sum(1 for c in line if ord(c) <= 127 and c.isalpha())
+        if non_ascii_letter_count > 5 and ascii_letter_count > 0 and non_ascii_letter_count / max(1, ascii_letter_count) > 0.3:
             findings.append({
                 "line": i,
-                "detail": f"High ratio of non-ASCII letter characters ({non_ascii}/{ascii_like + non_ascii}) - possible homoglyph attack",
+                "detail": f"High ratio of non-ASCII letter characters ({non_ascii_letter_count}/{ascii_letter_count + non_ascii_letter_count}) - possible homoglyph attack",
             })
 
     return findings
@@ -254,21 +254,21 @@ def check_frontmatter(content, lines):
 
 # ─── Scanner Engine ──────────────────────────────────────────────────────────────
 
-def identify_codeblocks(lines):
+def find_code_block_lines(lines):
     """Return set of line numbers that are inside fenced code blocks."""
-    in_block = False
-    block_lines = set()
+    inside_code_block = False
+    code_block_line_numbers = set()
     for i, line in enumerate(lines, 1):
         if re.match(r'^```', line.strip()):
-            in_block = not in_block
-            block_lines.add(i)
+            inside_code_block = not inside_code_block
+            code_block_line_numbers.add(i)
             continue
-        if in_block:
-            block_lines.add(i)
-    return block_lines
+        if inside_code_block:
+            code_block_line_numbers.add(i)
+    return code_block_line_numbers
 
 
-def scan(filepath):
+def scan_skill_file(filepath):
     """Scan a file and return findings."""
     path = Path(filepath)
     if not path.exists():
@@ -276,17 +276,17 @@ def scan(filepath):
 
     content = path.read_text(encoding='utf-8', errors='replace')
     lines = content.split('\n')
-    codeblock_lines = identify_codeblocks(lines)
+    codeblock_lines = find_code_block_lines(lines)
 
-    all_findings = []
+    rule_findings = []
     total_score = 0
 
     for rule in RULES:
         findings = []
 
         if "check_function" in rule:
-            func = globals()[rule["check_function"]]
-            findings = func(content, lines)
+            check_function = globals()[rule["check_function"]]
+            findings = check_function(content, lines)
         elif "patterns" in rule:
             flags = re.IGNORECASE
             if rule.get("multiline"):
@@ -314,7 +314,7 @@ def scan(filepath):
 
         if findings:
             total_score += rule["weight"]
-            all_findings.append({
+            rule_findings.append({
                 "rule_id": rule["id"],
                 "rule_name": rule["name"],
                 "severity": rule["severity"],
@@ -339,8 +339,8 @@ def scan(filepath):
         "estimated_tokens": len(content.encode('utf-8')) // 4,
         "risk_level": risk_level,
         "risk_score": min(100, total_score),
-        "findings_count": sum(f["count"] for f in all_findings),
-        "findings": all_findings,
+        "findings_count": sum(f["count"] for f in rule_findings),
+        "findings": rule_findings,
     }
 
 
@@ -351,7 +351,7 @@ if __name__ == "__main__":
         print("Usage: python3 scan-skill.py <file_path>", file=sys.stderr)
         sys.exit(1)
 
-    result = scan(sys.argv[1])
+    result = scan_skill_file(sys.argv[1])
     print(json.dumps(result, indent=2))
 
     # Exit code based on risk level
