@@ -107,27 +107,27 @@ User Query: "playwright testing"
 
 ## Current Registry Contents
 
-**Verified Skills (2):**
+**Verified Skills (13):**
 1. pbakaus/impeccable - Impeccable Design Audit
 2. msitarzewski/agency-agents - Agency Agents Collection
+3. metaskills/skill-builder - Skill Builder (structure, format, best practices)
+4. IndianOldTurtledove/claude-skill-authoring - Claude Skill Authoring
+5. zebbern/agent-skills-authoring - Agent Skills Authoring
+6. fvadicamo/dev-agent-skills - Dev Agent Skills (Git, GitHub, skill authoring)
+7. K-Dense-AI/claude-scientific-skills - Claude Scientific Skills
+8. refly-ai/refly - Refly Agent Skills Builder
+9. blader/humanizer - Humanizer (AI writing detection removal)
+10. keysersoose/claude-agent-builder - Claude Agent Builder
+11. haowjy/creative-writing-skills - Creative Writing Skills
+12. lishix520/academic-paper-skills - Academic Paper Writing
+13. aaron-he-zhu/seo-geo-claude-skills - SEO & GEO Claude Skills
 
-**Example Skills (8):**
-3. Playwright Testing Best Practices
-4. Terraform Infrastructure Patterns
-5. OWASP Security Checklist
-6. React Best Practices
-7. Pythonic Code Patterns
-8. Git Workflow Discipline
-9. REST API Design Patterns
-10. Docker Best Practices
-
-*Note: Example skills (3-10) are placeholders demonstrating the registry structure. These need to be replaced with real, verified skills.*
+*All entries are real, verified skill repositories discovered through live GitHub API testing (v1.1.0).*
 
 ## Next Steps
 
 ### Immediate (1-2 days)
-1. **Populate Real Skills**: Replace example entries with actual verified skills
-   - Find and verify 10-20 real skill repositories
+1. **Expand Registry**: Continue adding verified skills to grow coverage
    - Run security scanner on each
    - Calculate trust scores
    - Add to registry
