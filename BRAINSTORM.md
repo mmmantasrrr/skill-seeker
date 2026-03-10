@@ -41,7 +41,7 @@ Items 2-5 don't need to be in the always-loaded pre-flight. They're instructions
 
 **Hermeneutic insight**: The SKILL.md is trying to be both a *trigger* ("should I search?") and a *manual* ("how do I search?"). It should be a trigger only. The manual lives in the commands.
 
-**Concrete fix**: Slim the SKILL.md to ~300 tokens:
+**Concrete fix**: Slim the SKILL.md to ~200 tokens:
 ```markdown
 # Seeking Community Skills
 
@@ -59,7 +59,7 @@ might exist. Use `/skill-seeker:seek <query>` to search.
 - User says not to search
 ```
 
-That's ~150 tokens instead of ~961. **A 6x reduction in permanent overhead.** The detailed protocol, security rules, and formatting instructions stay in the command files where they belong.
+That's ~200 tokens instead of ~961. **A 5x reduction in permanent overhead.** The detailed protocol, security rules, and formatting instructions stay in the command files where they belong.
 
 ### The Four-Command Structure Has a Missing Step
 
@@ -219,7 +219,7 @@ Without this, Claude would suggest skill search for every non-trivial request. T
 ### Recommendation: Slim, Don't Remove
 
 The pre-flight is valuable — it's what makes skill-seeker proactive rather than purely reactive. But it should be:
-- **~150-300 tokens** (not 961)
+- **~200 tokens** (not 961)
 - **Trigger-focused** (when to suggest, when not to)
 - **No duplication** of command instructions
 - **No operational details** (security protocol, token budgets, common mistakes)
