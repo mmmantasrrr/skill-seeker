@@ -41,7 +41,11 @@ install_plugin() {
     info "Installing skill-seeker to $INSTALL_DIR ..."
     mkdir -p "$(dirname "$INSTALL_DIR")"
     git clone --depth 1 "$REPO_URL" "$INSTALL_DIR"
-    chmod +x "$INSTALL_DIR"/scripts/*.sh 2>/dev/null || true
+    if [[ -d "$INSTALL_DIR/scripts" ]]; then
+        chmod +x "$INSTALL_DIR"/scripts/*.sh
+    else
+        warn "Scripts directory not found — plugin may not work correctly."
+    fi
 
     ok "skill-seeker installed successfully!"
     echo ""

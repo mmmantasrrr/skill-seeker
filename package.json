@@ -4,7 +4,7 @@
   "description": "Discover, evaluate, and install community-created Claude Code skills from GitHub. Search for AI behavioral frameworks, prompt-based skills, and specialized personas to enhance Claude's capabilities.",
   "main": "index.js",
   "bin": {
-    "skill-seeker-install": "./install.sh"
+    "skill-seeker": "./install.sh"
   },
   "scripts": {
     "test": "python3 tests/test_scan_skill.py",
