@@ -24,14 +24,34 @@ Claude (with Skill-Seeker loaded):
 
 ## Quick Start
 
+### New Features (v2.0)
+
+**⚡ Reduced Context Overhead**: Pre-flight skill slimmed from ~961 to ~200 tokens (80% reduction)
+
+**🔍 Combined Search**: Single script merges registry + GitHub results with automatic deduplication
+
+**🚀 Registry Quick-Install**: Install verified skills by ID: `/skill-seeker:install metaskills-skill-builder`
+
+**📊 Status Command**: See loaded skills and context budget at a glance
+
+**💾 Cache Reload**: Instantly reload previously installed skills without re-fetching
+
+**📁 Project Profiles**: Define project-specific skill preferences in `.skill-seeker-profile.json`
+
+**🎯 Auto-Browse**: HIGH trust verified skills auto-browse to collapse seek+browse into one step
+
+See [PROJECT-PROFILES.md](PROJECT-PROFILES.md) for detailed information on project profiles.
+
 ### Commands
 
 | Command | Purpose |
 |---------|---------|
 | `/skill-seeker:seek <query>` | Search GitHub for skills matching a query |
 | `/skill-seeker:browse <owner/repo>` | List all skills in a specific repository |
-| `/skill-seeker:install <owner/repo/path>` | Fetch, scan, and install a specific skill |
-| `/skill-seeker:unload` | List and remove loaded skills from the current session |
+| `/skill-seeker:install <target>` | Fetch, scan, and install a skill (supports registry IDs) |
+| `/skill-seeker:status` | Show loaded skills and context budget |
+| `/skill-seeker:reload [target]` | Quickly reload a skill from cache |
+| `/skill-seeker:unload` | Clean up temporary skill files |
 
 ### Prerequisites
 
@@ -57,18 +77,26 @@ skill-seeker/
 ├── commands/
 │   ├── seek.md              # Search GitHub for skills
 │   ├── browse.md            # Browse skills in a repo
-│   ├── install.md           # Fetch, scan, and install a skill
-│   └── unload.md            # Unload skills from current session
+│   ├── install.md           # Fetch, scan, and install a skill (supports registry IDs)
+│   ├── status.md            # Show loaded skills and context budget
+│   ├── reload.md            # Quickly reload skills from cache
+│   └── unload.md            # Clean up temporary files
 ├── scripts/
+│   ├── search-combined.sh   # Combined registry + GitHub search (NEW)
+│   ├── search-registry.sh   # Curated registry search
 │   ├── search-github.sh     # GitHub API search & browse
+│   ├── resolve-skill-id.sh  # Resolve registry IDs to repo/path (NEW)
 │   ├── fetch-skill.sh       # Raw markdown fetching with caching
 │   └── scan-skill.py        # Security scanner (9 detection categories)
 ├── skills/
 │   └── seeking-skills/
-│       └── SKILL.md         # Meta-skill: when/how to seek skills
+│       └── SKILL.md         # Meta-skill: when/how to seek skills (slimmed to ~200 tokens)
 ├── tests/
-│   └── test_scan_skill.py   # Security scanner tests
+│   └── test_scan_skill.py   # Security scanner tests (34 tests)
+├── registry.json            # Curated skill registry (v1.1.0)
+├── .skill-seeker-profile.example.json  # Example project profile
 ├── ARCHITECTURE.md          # Technical deep-dive
+├── PROJECT-PROFILES.md      # Project skill profiles guide (NEW)
 └── README.md                # This file
 ```
 
