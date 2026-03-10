@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/mmmantasrrr/skill-seeker/main/schemas/profile.json",
+  "version": "1.0.0",
+  "description": "Project skill profile - defines preferred skills for this project",
+  "auto_suggest": [
+    {
+      "skill_id": "pbakaus-impeccable-v1",
+      "repo": "pbakaus/impeccable",
+      "path": ".claude/skills/impeccable/SKILL.md",
+      "reason": "Frontend project requiring design quality standards",
+      "enabled": true
+    },
+    {
+      "skill_id": "metaskills-skill-builder-v1",
+      "repo": "metaskills/skill-builder",
+      "path": "reference/skill-structure-and-format.md",
+      "reason": "Skill development project",
+      "enabled": false
+    }
+  ],
+  "disabled_skills": [],
+  "notes": "This file allows Claude Code to suggest project-appropriate skills at session start. All suggestions still require user approval."
+}
