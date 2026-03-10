@@ -5,9 +5,10 @@
 - Testing Date: 2026-03-10
 - Changes Made:
   1. Fixed `.claude-plugin/marketplace.json` - added `"source": "./"` field
-  2. Created `uninstall.sh` script
-  3. Created `TESTING-DEV-BRANCH.md` guide
-  4. Updated README with uninstall instructions
+  2. Fixed `.claude-plugin/plugin.json` - changed repository to string, removed bugs field
+  3. Created `uninstall.sh` script
+  4. Created `TESTING-DEV-BRANCH.md` guide
+  5. Updated README with uninstall instructions
 
 ## Changes Summary
 
@@ -32,7 +33,47 @@
 - Using `"source": "."` (without slash): Parse error
 - Using `"source": "./"` (with slash): ✓ Correct
 
-### 2. Uninstall Script
+### 2. plugin.json Schema Fix (NEW)
+
+**Problem:** Plugin installation failed with validation errors:
+```
+repository: Invalid input: expected string, received object
+Unrecognized key: "bugs"
+```
+
+**Root Cause:** Claude Code's plugin.json schema differs from npm's package.json format. It requires simpler field types.
+
+**Fix Applied:**
+```json
+// BEFORE (npm package.json style - WRONG for Claude Code):
+{
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mmmantasrrr/skill-seeker"
+  },
+  "bugs": {
+    "url": "https://github.com/mmmantasrrr/skill-seeker/issues"
+  }
+}
+
+// AFTER (Claude Code plugin.json style - CORRECT):
+{
+  "repository": "https://github.com/mmmantasrrr/skill-seeker"
+  // bugs field removed entirely
+}
+```
+
+**Key Differences Between npm package.json and Claude Code plugin.json:**
+
+| Field | npm package.json | Claude Code plugin.json |
+|-------|------------------|------------------------|
+| `repository` | Object: `{"type": "git", "url": "..."}` | String: `"https://github.com/..."` |
+| `bugs` | Supported: `{"url": "..."}` | **Not supported** - causes validation error |
+| `homepage` | String (supported) | String (supported) ✓ |
+| `keywords` | Array (supported) | Array (supported) ✓ |
+| `author` | Object/String (supported) | Object with `name` field ✓ |
+
+### 3. Uninstall Script
 
 Created `uninstall.sh` to provide users with an easy way to remove the plugin:
 
@@ -118,7 +159,10 @@ Expected output:
 ## Validation Checklist
 
 - [x] marketplace.json is valid JSON
+- [x] marketplace.json has correct "source": "./" field
 - [x] plugin.json is valid JSON
+- [x] plugin.json has repository as string (not object)
+- [x] plugin.json has no "bugs" field
 - [x] install.sh has valid bash syntax
 - [x] uninstall.sh has valid bash syntax
 - [x] uninstall.sh has executable permissions
@@ -126,32 +170,47 @@ Expected output:
 - [x] TESTING-DEV-BRANCH.md is comprehensive
 - [ ] Tested installation from branch (requires Claude CLI)
 - [ ] Tested uninstall script (requires Claude CLI)
-- [ ] Verified marketplace parse error is fixed (requires Claude CLI)
+- [ ] Verified both marketplace and plugin errors are fixed (requires Claude CLI)
 
 ## Expected Outcomes
 
-### Before This Fix
+### Before These Fixes
+
+**Issue 1 - marketplace.json parse error:**
 ```
 ❯ /plugin marketplace add mmmantasrrr/skill-seeker
 ✘ Failed to parse marketplace file at .../marketplace.json: Invalid schema:
 plugins.0.source: Invalid input
 ```
 
-### After This Fix
+**Issue 2 - plugin.json validation error:**
+```
+❯ /plugin install skill-seeker@skill-seeker
+✘ Failed to install plugin "skill-seeker@skill-seeker": Plugin has an invalid
+manifest file at .../.claude-plugin/plugin.json. Validation errors:
+repository: Invalid input: expected string, received object
+Unrecognized key: "bugs"
+```
+
+### After These Fixes
 ```
 ❯ /plugin marketplace add mmmantasrrr/skill-seeker
 ✓ Marketplace added successfully
 
 ❯ /plugin install skill-seeker@skill-seeker
 ✓ Plugin installed successfully
+
+❯ /skill-seeker:seek react hooks
+✓ All commands work correctly
 ```
 
 ## Files Changed
 
 1. `.claude-plugin/marketplace.json` - Added `"source": "./"` field
-2. `uninstall.sh` - New file (executable)
-3. `TESTING-DEV-BRANCH.md` - New comprehensive testing guide
-4. `README.md` - Added uninstall section and dev testing link
+2. `.claude-plugin/plugin.json` - Changed `repository` from object to string, removed `bugs` field
+3. `uninstall.sh` - New file (executable)
+4. `TESTING-DEV-BRANCH.md` - New comprehensive testing guide
+5. `README.md` - Added uninstall section and dev testing link
 
 ## Known Limitations
 
@@ -196,9 +255,21 @@ plugins.0.source: Invalid input
 
 ## Additional Notes
 
-The root cause was subtle: Claude Code's marketplace parser distinguishes between:
+### marketplace.json Root Cause
+
+Claude Code's marketplace parser distinguishes between:
 - `"source": "."` → Parse error (treated as invalid)
 - `"source": "./"` → Success (recognized as relative path)
 - No source field → Parse error (required for self-contained plugins)
 
-This is documented in Claude Code's official plugin documentation, which the research agent helped clarify.
+### plugin.json Root Cause
+
+Claude Code's plugin.json schema differs from npm's package.json:
+- **repository field**: Must be a simple string URL, not an object with type/url
+- **bugs field**: Not supported - causes "Unrecognized key" validation error
+- The plugin system expects a simpler, more streamlined schema
+
+**Why this happened:**
+The plugin.json was initially created using npm package.json conventions (with object-style repository and bugs field), but Claude Code's plugin system has its own schema requirements that are stricter and simpler.
+
+Both issues are now documented in the codebase for future reference.
