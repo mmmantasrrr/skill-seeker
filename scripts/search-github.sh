@@ -3,22 +3,111 @@
 # Usage:
 #   search-github.sh <query>           # Search by query
 #   search-github.sh --browse <repo>   # Browse a specific repo's skills
+#   search-github.sh --check           # Verify GitHub API connectivity
 #
 # Requires: curl, jq
 # Optional: GITHUB_TOKEN env var for higher rate limits (5000 vs 60 req/hr)
 
 set -euo pipefail
 
+# Track whether any API call failed (used for exit code)
+_API_ERRORS=0
+
 gh_api() {
     local url="$1"
+    local tmpfile
+    tmpfile=$(mktemp)
+    local http_code
+
     if [[ -n "${GITHUB_TOKEN:-}" ]]; then
-        curl -s -H "Authorization: token $GITHUB_TOKEN" \
+        http_code=$(curl -s -w "%{http_code}" -o "$tmpfile" \
+             -H "Authorization: token $GITHUB_TOKEN" \
              -H "Accept: application/vnd.github.v3+json" \
-             "$url"
+             "$url" 2>/dev/null) || http_code="000"
     else
-        curl -s -H "Accept: application/vnd.github.v3+json" "$url"
+        http_code=$(curl -s -w "%{http_code}" -o "$tmpfile" \
+             -H "Accept: application/vnd.github.v3+json" \
+             "$url" 2>/dev/null) || http_code="000"
     fi
+
+    # Check for network/connection failure
+    if [[ "$http_code" == "000" ]]; then
+        echo "ERROR: Cannot connect to GitHub API (network error or DNS block)" >&2
+        rm -f "$tmpfile"
+        _API_ERRORS=1
+        echo '{}'
+        return 1
+    fi
+
+    # Check for HTTP errors
+    if [[ "$http_code" -lt 200 || "$http_code" -ge 300 ]]; then
+        echo "ERROR: GitHub API returned HTTP $http_code for $url" >&2
+        if [[ "$http_code" == "403" ]]; then
+            echo "HINT: You may be rate-limited. Set GITHUB_TOKEN env var for 5000 req/hr (vs 60 without)." >&2
+        elif [[ "$http_code" == "401" ]]; then
+            echo "HINT: Your GITHUB_TOKEN may be invalid or expired." >&2
+        elif [[ "$http_code" == "404" ]]; then
+            echo "HINT: Repository or resource not found." >&2
+        fi
+        rm -f "$tmpfile"
+        _API_ERRORS=1
+        echo '{}'
+        return 1
+    fi
+
+    # Validate JSON response
+    if ! jq empty "$tmpfile" 2>/dev/null; then
+        echo "ERROR: GitHub API returned non-JSON response (possible network proxy or block)" >&2
+        echo "HINT: Check if a corporate proxy or firewall is intercepting api.github.com" >&2
+        rm -f "$tmpfile"
+        _API_ERRORS=1
+        echo '{}'
+        return 1
+    fi
+
+    cat "$tmpfile"
+    rm -f "$tmpfile"
 }
+
+# ─── Check mode: verify GitHub API connectivity ───────────────────────────────
+if [[ "${1:-}" == "--check" ]]; then
+    echo "Checking GitHub API connectivity..."
+    echo ""
+
+    # Test api.github.com
+    API_HTTP=$(curl -s -o /dev/null -w "%{http_code}" "https://api.github.com/zen" 2>/dev/null) || API_HTTP="000"
+    if [[ "$API_HTTP" == "200" ]]; then
+        echo "✅ api.github.com — reachable (HTTP $API_HTTP)"
+    else
+        echo "❌ api.github.com — UNREACHABLE (HTTP $API_HTTP)"
+        echo "   Search and browse will not work."
+    fi
+
+    # Test raw.githubusercontent.com
+    RAW_HTTP=$(curl -s -o /dev/null -w "%{http_code}" "https://raw.githubusercontent.com/github/gitignore/main/README.md" 2>/dev/null) || RAW_HTTP="000"
+    if [[ "$RAW_HTTP" == "200" ]]; then
+        echo "✅ raw.githubusercontent.com — reachable (HTTP $RAW_HTTP)"
+    else
+        echo "❌ raw.githubusercontent.com — UNREACHABLE (HTTP $RAW_HTTP)"
+        echo "   Fetch/install will not work."
+    fi
+
+    # Check auth
+    echo ""
+    if [[ -n "${GITHUB_TOKEN:-}" ]]; then
+        RATE_RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/rate_limit" 2>/dev/null) || RATE_RESPONSE="{}"
+        REMAINING=$(echo "$RATE_RESPONSE" | jq -r '.resources.search.remaining // "unknown"' 2>/dev/null) || REMAINING="unknown"
+        LIMIT=$(echo "$RATE_RESPONSE" | jq -r '.resources.search.limit // "unknown"' 2>/dev/null) || LIMIT="unknown"
+        echo "🔑 GITHUB_TOKEN is set"
+        echo "   Search rate limit: $REMAINING/$LIMIT remaining"
+    else
+        echo "⚠️  GITHUB_TOKEN is not set"
+        echo "   Using unauthenticated access (60 req/hr, 10 searches/min)"
+        echo "   Set GITHUB_TOKEN for 5000 req/hr and 30 searches/min"
+    fi
+
+    exit 0
+fi
 
 # ─── Browse mode: list skills in a specific repo ───────────────────────────────
 if [[ "${1:-}" == "--browse" ]]; then
