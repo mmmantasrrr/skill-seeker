@@ -9,12 +9,7 @@
 
 set -euo pipefail
 
-AUTH_HEADER=""
-if [[ -n "${GITHUB_TOKEN:-}" ]]; then
-    AUTH_HEADER="-H \"Authorization: token $GITHUB_TOKEN\""
-fi
-
-call_github_api() {
+gh_api() {
     local url="$1"
     if [[ -n "${GITHUB_TOKEN:-}" ]]; then
         curl -s -H "Authorization: token $GITHUB_TOKEN" \
