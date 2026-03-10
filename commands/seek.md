@@ -12,33 +12,33 @@ Search for community-created Claude Code skills matching the user's query using 
 
 ## Steps
 
-1. Search the curated registry for instant results:
+1. Run the combined search script that merges registry and GitHub results:
+   ```bash
+   bash "${CLAUDE_PLUGIN_ROOT}/scripts/search-combined.sh" "<query>"
+   ```
+
+   **If search-combined.sh doesn't exist yet**, run both scripts separately:
    ```bash
    bash "${CLAUDE_PLUGIN_ROOT}/scripts/search-registry.sh" "<query>"
-   ```
-
-2. Search GitHub for additional results:
-   ```bash
    bash "${CLAUDE_PLUGIN_ROOT}/scripts/search-github.sh" "<query>"
    ```
+   Then merge results, deduplicating by repository name.
 
-3. Merge results from both sources, deduplicating by repository name.
-
-4. Present the combined results to the user in a table format:
+2. Present the combined results to the user in a table format:
    - Repository name and description
    - Stars count and last updated date
    - Trust score (stars + age + known author signals)
    - Source (registry or GitHub)
 
-5. If the GitHub search returns a warning about API errors, inform the user and note that registry results are still available.
+3. Try 3+ query variations if initial results are poor (e.g., "design audit" → "frontend review" → "ui quality")
 
-6. Ask the user which repository they want to explore further.
+4. If GitHub search returns a warning about API errors, inform the user and note that registry results are still available.
 
-7. If the user picks a repo, suggest using `/skill-seeker:browse <owner/repo>` to see its skills.
+5. **For HIGH trust verified registry skills**: Consider auto-browsing to show skills directly (collapse seek+browse into one step). Still require user approval for installation.
+
+6. **Otherwise**: Ask the user which repository they want to explore further, then suggest `/skill-seeker:browse <owner/repo>`.
 
 ## Output Format
-
-Present results as:
 
 ```
 ## Community Skills: "<query>"
@@ -51,6 +51,14 @@ Present results as:
 
 Pick a number to browse, or refine your search.
 ```
+
+## Core Search Pattern
+
+**Steps 3-4 are mandatory checkpoints:**
+1. Identify the domain/task category
+2. Run search → get candidate repos (try 3+ query variations if needed)
+3. **STOP**: Present top results with trust scores to user
+4. **WAIT** for user to pick — do NOT proceed autonomously (except auto-browse for HIGH trust)
 
 ## Notes
 
