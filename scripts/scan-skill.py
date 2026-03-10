@@ -146,7 +146,7 @@ RULES = [
 
 ALLOWED_FRONTMATTER_KEYS = {
     "name", "description", "user-invokable", "args", "version",
-    "author", "license", "color", "tags", "category",
+    "author", "license", "color", "tags", "category", "metadata",
 }
 
 

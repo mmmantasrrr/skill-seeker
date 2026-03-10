@@ -25,7 +25,7 @@ if [[ "${1:-}" == "--browse" ]]; then
     REPO="${2:?Usage: search-github.sh --browse owner/repo}"
 
     # Get default branch
-    REPO_INFO=$(call_github_api "https://api.github.com/repos/$REPO")
+    REPO_INFO=$(gh_api "https://api.github.com/repos/$REPO")
     DEFAULT_BRANCH=$(echo "$REPO_INFO" | jq -r '.default_branch // "main"')
     STARS=$(echo "$REPO_INFO" | jq -r '.stargazers_count // 0')
     REPO_DESCRIPTION=$(echo "$REPO_INFO" | jq -r '.description // "(no description)"')
@@ -39,7 +39,7 @@ if [[ "${1:-}" == "--browse" ]]; then
     echo "  \"branch\": \"$DEFAULT_BRANCH\","
 
     # Fetch file tree
-    TREE=$(call_github_api "https://api.github.com/repos/$REPO/git/trees/$DEFAULT_BRANCH?recursive=1")
+    TREE=$(gh_api "https://api.github.com/repos/$REPO/git/trees/$DEFAULT_BRANCH?recursive=1")
 
     # Find skill files: SKILL.md files, or .md files with likely skill content
     echo "  \"skills\": ["
@@ -94,13 +94,13 @@ MIN_STARS="${2:-10}"
 
 # Search strategies (run the most targeted first)
 # 1. Topic search for claude-skills + query terms
-TOPIC_RESULTS=$(call_github_api "https://api.github.com/search/repositories?q=topic:claude-skills+topic:claude-code-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10")
+TOPIC_RESULTS=$(gh_api "https://api.github.com/search/repositories?q=topic:claude-skills+topic:claude-code-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10")
 
 # 2. Topic search without query filtering (broader)
-TOPIC_BROAD=$(call_github_api "https://api.github.com/search/repositories?q=topic:claude-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10")
+TOPIC_BROAD=$(gh_api "https://api.github.com/search/repositories?q=topic:claude-skills+${QUERY// /+}&sort=stars&order=desc&per_page=10")
 
 # 3. Description/name search
-DESC_RESULTS=$(call_github_api "https://api.github.com/search/repositories?q=${QUERY// /+}+claude+skill+in:description,name&sort=stars&order=desc&per_page=10")
+DESC_RESULTS=$(gh_api "https://api.github.com/search/repositories?q=${QUERY// /+}+claude+skill+in:description,name&sort=stars&order=desc&per_page=10")
 
 # Merge and deduplicate results, compute trust scores
 export TOPIC_RESULTS TOPIC_BROAD DESC_RESULTS QUERY
