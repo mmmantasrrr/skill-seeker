@@ -38,7 +38,7 @@ def scan_content(content):
 class TestCleanFiles(unittest.TestCase):
     """Verify that safe content passes cleanly."""
 
-    def test_normal_skill_file(self):
+    def test_clean_skill_with_frontmatter_passes(self):
         content = """---
 name: test-skill
 description: A normal skill for testing
@@ -63,7 +63,7 @@ description: A normal skill for testing
         result = scan_content("")
         self.assertEqual(result["risk_level"], "CLEAN")
 
-    def test_code_examples_in_blocks(self):
+    def test_shell_commands_in_code_blocks_not_flagged(self):
         content = """# Shell Guide
 
 Here's how to run a command:
@@ -124,7 +124,7 @@ class TestToolAbuse(unittest.TestCase):
         tool_abuse = [f for f in result["findings"] if f["rule_id"] == "TOOLABUSE_001"]
         self.assertGreater(len(tool_abuse), 0)
 
-    def test_curl_pipe_bash_in_codeblock_ignored(self):
+    def test_curl_pipe_bash_in_code_block_not_flagged(self):
         content = """Here's an example:
 
 ```bash

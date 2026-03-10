@@ -88,7 +88,7 @@ All community content passes through the security scanner before injection. The 
 | Unicode obfuscation | MEDIUM | Zero-width chars, RTL overrides, homoglyphs |
 | Frontmatter abuse | MEDIUM | Unexpected YAML keys that could alter behavior |
 
-**Risk levels**: CLEAN (0–14) → LOW → MEDIUM (15–29) → HIGH (30–49) → CRITICAL (50+)
+**Risk levels**: CLEAN (0) → LOW (1–14) → MEDIUM (15–29) → HIGH (30–49) → CRITICAL (50+)
 
 Skills flagged HIGH or CRITICAL are **blocked by default**. The user must explicitly acknowledge findings before proceeding.
 

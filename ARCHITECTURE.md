@@ -147,10 +147,10 @@ Fetched skills are stored in two locations:
 
 | Location | Purpose | Lifetime |
 |----------|---------|----------|
-| `/tmp/skill-seeker-cache/` | Raw fetched files + metadata | System temp (cleared on reboot) |
-| `~/.claude/skills-cache/` | User-approved installed skills | Persistent across sessions |
+| `/tmp/skill-seeker-cache/` | Raw fetched files + metadata (ephemeral fetch cache) | System temp (cleared on reboot) |
+| `~/.claude/skills-cache/` | User-approved installed skills (persistent on disk, but NOT auto-loaded) | Files persist across sessions but must be explicitly re-read each session |
 
-**Key design decision**: Installed skills go to `skills-cache/`, NOT `skills/`. This prevents auto-loading in future Claude Code sessions. Skills must be explicitly re-read each session.
+**Key design decision**: Installed skills go to `skills-cache/`, NOT `skills/`. This means the files persist on disk for convenience (no need to re-fetch), but they are NOT auto-loaded into future Claude Code sessions. The user must explicitly re-read a cached skill to use it again, giving full control over what enters the context.
 
 ### Project-Level Temp Directory
 
