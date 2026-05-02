@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-03-10",
+  "last_updated": "2026-05-02",
   "description": "Curated registry of verified Claude Code skills. Searched as Strategy 0 before hitting GitHub API.",
   "skills": [
     {
@@ -197,6 +197,22 @@
       "stars": 346,
       "last_verified": "2026-03-10",
       "domains": ["web-development", "general"]
+    },
+    {
+      "id": "clarence-g-tablecraft-player-v1",
+      "name": "TableCraft Player",
+      "description": "Play 13+ turn-based board games (Gomoku, UNO, Poker, Blackjack, Yahtzee, Hive, Love Letter, Splendor, Connect Four, Battleship, Codenames, Liar's Bar, Undercover) on the TableCraft multiplayer platform via CLI.",
+      "source": "github",
+      "repo": "Clarence-G/tablecraft",
+      "path": "skill_data/tablecraft-player/SKILL.md",
+      "tags": ["board-games", "gaming", "multiplayer", "gomoku", "uno", "poker", "bot-player", "cli", "json", "ai-agent"],
+      "aliases": ["tablecraft-cli", "tablecraft-bot", "play-boardgame", "board-game-bot", "claude-plays-games"],
+      "verified": false,
+      "trust_score": 0,
+      "stars": 0,
+      "last_verified": "2026-05-02",
+      "domains": ["general"],
+      "note": "Gaming / AI-agent skill. Also distributed via npm `tablecraft-cli` (bundles SKILL.md); install via `npm i -g tablecraft-cli && ln -s \"$(tablecraft skill-path | jq -r .path)\" ~/.claude/skills/tablecraft-player`. Live server: https://tablecraft.aster.pub"
     }
   ],
   "domains": {
@@ -267,7 +283,7 @@
     "scientific": ["research", "science", "academic", "analysis"]
   },
   "metadata": {
-    "total_skills": 13,
+    "total_skills": 14,
     "verified_skills": 13,
     "format_version": "1.1.0",
     "notes": "All entries are real, verified skill repositories discovered through live GitHub API testing on 2026-03-10."
